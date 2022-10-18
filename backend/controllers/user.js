@@ -29,9 +29,9 @@ exports.signup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const firstname = req.body.firstname;
-    const name = req.body.name;
+    const lastname = req.body.lastname;
     
-    if (!email || !password || !firstname || !name){
+    if (!email || !password || !firstname || !lastname){
         return res.status(400).send({
             message: "E-mail, mot de passe, prénom ou nom manquant."
         })
@@ -54,12 +54,12 @@ exports.signup = (req, res, next) => {
                     email: email,
                     password: hash,
                     firstname: firstname,
-                    name: name
+                    lastname: lastname
                 });
                 // et on le sauvegarde dans la base de données
                 user.save()
-                    .then(() => res.status(201).json({ message: 'L\'utilisateur ' + (req.body.email) + ' a bien été créé !'}))
-                    .catch(() => res.status(400).json({ message: 'L\'utilisateur ' + (req.body.email) + ' est déjà inscrit !' }));
+                    .then(() => res.status(201).json({ message: 'L\'utilisateur ' + (req.body.email) + ' a bien été créé !' }))
+                    .catch(() => res.status(400).json({ message: 'L\'utilisateur ' + (req.body.email) + ' est déjà inscrit !', email: req.body.email }));
             })
             .catch(error => res.status(500).json({ error }))
     };
@@ -116,17 +116,17 @@ exports.deleteProfil = (req, res, next) => {
         }); 
 };
 
-// Contrôleur pour l'affichage de tous les profils, uniquement par l'administrateur
+// Contrôleur pour l'affichage de tous les profils
 exports.getAllProfils = (req, res, next) => {
     User.findById(req.auth.userId)
         .then((user) => {
-            if (user.isAdmin != false) {
+         //   if (user.isAdmin != false) {
                 User.find() // on utilise la méthode find et on renvoie un tableau contenant les Profils de la BDD
                     .then(profils => res.status(200).json(profils))
                     .catch(() => res.status(400).json({ message: 'La liste des profils est introuvable !' }));
-            } else {
-                res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'administrateur du site !'});
-            }
+           // } else {
+             //   res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'administrateur du site !'});
+           // }
         })    
         .catch((error) => {
             error,
