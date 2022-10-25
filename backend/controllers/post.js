@@ -6,6 +6,22 @@ const User = require('../models/User');
 const fs = require('fs');
 
 // Controleur pour la création d'un Post
+// exports.createPost = (req, res, next) => {
+//   const postObject = req.body;
+//   console.log(req.body);
+//   console.log(req.body.post);
+//   console.log(req.auth);
+//   delete postObject._id;
+//   delete postObject._userId;
+//   const post = new Post({
+//       ...postObject,
+//       userId: req.auth.userId,
+//       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file}`
+//   });
+//   post.save() //on utilise la méthode save pour enregistrer Sauce dans la base de données, elle renvoie une promise
+//       .then(() => res.status(201).json({ message: 'Post enregistré !'})) // on renvoie une réponse de réussite
+//       .catch(error => res.status(400).json({ error })); // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
+// };
 exports.createPost = (req, res, next) => {
   const postObject = req.file ? {
     ...req.body.post,
@@ -17,10 +33,13 @@ exports.createPost = (req, res, next) => {
         ...req.body,
         ...postObject,
         ...req.file,
-        userId: req.auth.userId
-      //  imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        userId: req.auth.userId,
+       // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    post.save() //on utilise la méthode save pour enregistrer Sauce dans la base de données, elle renvoie une promise
+    console.log(post);
+    console.log(req.body);
+    console.log(req.file);
+    post.save() //on utilise la méthode save pour enregistrer Post dans la base de données, elle renvoie une promise
         .then(() => { res.status(201).json({ message: 'Nouveau Post créé !'})}) // on renvoie une réponse de réussite
         .catch(error => { res.status(400).json({ error })}); // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
 };
@@ -31,6 +50,7 @@ exports.modifyPost = (req, res, next) => {
         ...req.body.post,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
+    console.log(req.body);
     delete postObject._userId;
     Post.findOne({_id: req.params.id})
         .then((post) => {

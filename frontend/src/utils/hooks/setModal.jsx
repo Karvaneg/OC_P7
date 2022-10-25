@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import colors from '../style/colors'
+//import colors from '../style/colors'
 
 const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);

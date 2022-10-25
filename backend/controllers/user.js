@@ -80,7 +80,7 @@ exports.login = (req, res, next) => {
                         } else {
                             res.status(200).json({
                                 userId: user._id,
-                              //  isAdmin: user.isAdmin,
+                               // isAdmin: user.isAdmin,
                                 // Fonction sign sert à chiffrer un nouveau token
                                 token: jwt.sign(
                                     { userId: user._id },

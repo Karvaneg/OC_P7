@@ -1,8 +1,7 @@
 import profile from '../../assets/profile.png'
-import colors from '../../utils/style/colors'
-import { StyledLink } from '../../utils/style/Theme'
+//import colors from '../../utils/style/colors'
 //import { TitleH1 } from '../../utils/style/Theme'
-import { IsConnectSignupText, ProfileImageDefaut, EyePassword, Container, ConnectionForm } from '../../utils/style/theme/connexion'
+import { StyledLink, StyledIsConnectSignupText, StyledProfileImageDefaut, StyledEyePassword, StyledContainer, StyledConnectionForm } from './connexionStyle'
 import { DocumentTitle } from "../../utils/hooks/setDocumentTitle" 
 import { useDocumentTitle } from "../../utils/hooks/setDocumentTitle"
 import redEye from '../../assets/red_eye.png'
@@ -94,6 +93,7 @@ function Connexion() {
       }
     };
   
+  // Fonction connexion
   const handleSubmit = (event) => {
       event.preventDefault();
       // On récupère l'email et le mot de passe renseignés par l'utilisateur
@@ -114,7 +114,7 @@ function Connexion() {
         },
         body: JSON.stringify(dataUser)
       };
-      // Call API
+      // Call API pour la connexion
       fetch("http://localhost:8000/api/auth/login", dataMethod)
       .then((response) => response.json())
       .then((data) => {
@@ -143,6 +143,7 @@ function Connexion() {
       });
     }      
 
+    // Fonction Inscription
     const handleSubmitSignup = (event) => {
       event.preventDefault();
       // On récupère l'email, le mot de passe, le nom et le prénom renseignés par l'utilisateur
@@ -174,7 +175,7 @@ function Connexion() {
           console.log(dataMethod);
 
           
-      // Call API
+      // Call API Iinscription
       fetch("http://localhost:8000/api/auth/signup", dataMethod)
           .then((response) => response.json())
           .then((data) => {
@@ -238,26 +239,27 @@ function Connexion() {
     {/* { isModalSignup ? (
         <Inscription />
     ) : ( */}
-      <Container>
+      <StyledContainer>
       
       <h1>
         Bienvenue sur le réseau social interne de votre entreprise !
       </h1>
-      <ConnectionForm>
+      <StyledConnectionForm>
       
-        <ProfileImageDefaut src={profile} alt="profileImageDefaut" />
+        <StyledProfileImageDefaut src={profile} alt="profileImageDefaut" />
         <form onSubmit={handleSubmit}>
           <div>
             <input type="email"  onChange={emailHandleChange} name="email" placeholder={email} title="Votre email" required />
           </div>
+          <div>Le mot de passe doit contenir au moins 8 caractères dont : majuscules, minuscules et au moins 2 chiffres.</div>
           <div>
             <input type={typePassword} onChange={passwordHandleChange} name="password" placeholder={password} title="Votre mot de passe" autoComplete="true"  required />
-            <EyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
+            <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
           </div>
           { isConnect ? (
-          <IsConnectSignupText>
+          <StyledIsConnectSignupText>
             Votre adresse email ou votre mot de passe est incorrect. Veuillez vérifier les informations saisies.
-          </IsConnectSignupText>
+          </StyledIsConnectSignupText>
           ) : (
             <div></div>
           )}
@@ -273,8 +275,8 @@ function Connexion() {
         <StyledLink className="modal-toggle" onClick={toggleRegistrationForm}>
         Pas encore inscrit ?
         </StyledLink>
-        </ConnectionForm>
-    </Container>
+        </StyledConnectionForm>
+    </StyledContainer>
     <div className="App">
         <Modal
           isShowing={isRegistrationFormShowed}
@@ -287,19 +289,19 @@ function Connexion() {
             </div>
             <div className="form-group">
             <input type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
-            <EyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
+            <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
             </div>
             { isSignupError ? (
-          <IsConnectSignupText>
+          <StyledIsConnectSignupText>
             L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
-          </IsConnectSignupText>
+          </StyledIsConnectSignupText>
           ) : (
             null
           )}
            { isSignupValid ? (
-          <IsConnectSignupText>
+          <StyledIsConnectSignupText>
           Votre inscription a bien été prise en compte ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
-            </IsConnectSignupText>
+            </StyledIsConnectSignupText>
           ) : (
             null
           )}
@@ -316,7 +318,7 @@ function Connexion() {
         </Modal>
       </div>
 
-      <style jsx="true">{`
+      {/* <style jsx="true">{`
         .App {
          // height: 100vh;
           display: flex;
@@ -379,7 +381,7 @@ function Connexion() {
         }
 
         
-      `}</style>
+      `}</style> */}
       
   </div>
   );
