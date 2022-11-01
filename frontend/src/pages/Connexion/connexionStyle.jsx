@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import styled /*, { keyframes }*/ from 'styled-components'
+import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 
 
@@ -16,6 +16,13 @@ export const StyledEyePassword = styled.img`
   left: 191px;
   position: relative;
   opacity: 0.6;
+`
+export const StyledInfosPassword = styled.div`
+        font-size: 12px;
+        width: 200px;
+        text-align: center;
+        color: white;
+
 `
 
 export const StyledContainer = styled.div`
@@ -74,7 +81,7 @@ box-shadow: 1px 1px 15px ${colors.tertiary};
 `
 export const StyledIsConnectSignupText = styled.div`
     text-align: center;
-    color: black;
+    color: white;
     font-size: 14px;
     margin-top: -18px;
 

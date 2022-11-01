@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Header from './components/Header';
 import Connexion from './pages/Connexion';
-import Inscription from './components/Inscription';
 import Profil from './pages/Profil';
 import Dashboard from './pages/Dashboard';
 import Error from './components/Error';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import StyledGlobalStyle from './utils/style/GlobalStyle';
-import { UserContext, UserContextProvider } from './utils/context/DataUserConnectedContext';
+import { UserContextProvider } from './utils/context/DataUserConnectedContext';
 
 // on récupère le token du localstorage et on le met dans une variable
 const isToken = localStorage.getItem("token");
@@ -46,11 +45,6 @@ root.render(
                   <Connexion /> 
                 </ProhibitedRoutes>
               }/>
-              <Route path="/inscription" element={
-                <ProhibitedRoutes>
-                  <Inscription />
-                </ProhibitedRoutes>  
-              } />
               <Route path="/dashboard" element={
                 <ProtectedRoutes>
                   <UserContextProvider>

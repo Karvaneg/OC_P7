@@ -1,37 +1,26 @@
 import React, { createContext, useState, useEffect } from "react";
+//import { Loader } from "../style/theme/loader";
 
 // create context
 const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  // the value that will be given to the context
-  //const [user, setUser] = useState(null);
+  
   // [1] state (état, données)
     
-    //const [user, setUser] = useState(null);
+    
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const infoUser = JSON.parse(localStorage.getItem("testObject"));
-    // const isToken = infoUser.token;
-    // console.log(isToken);
-    // const userId = infoUser.userId;
-    // console.log(userId);
     const isToken = localStorage.getItem("token");
     const isUserId = localStorage.getItem("userIdConnected");
     const [user, setUser] = useState(isUserId);
-    const [isImageProfil, setIsImageProfil] = useState(false);
+   // const [isImageProfil, setIsImageProfil] = useState(false);
 
     // [2] comportements
 
-  // fetch a user from a fake backend API
+  // Call API pour récupérer les données de l'utilisateur connecté
   useEffect(() => {
     const fetchUser = () => {
-      // this would usually be your own backend, or localStorage
-      // for example
-      // fetch("https://randomuser.me/api/")
-      //   .then((response) => response.json())
-      //   .then((result) => setUser(result.results[0]))
-      //   .catch((error) => console.log("An error occured"));
       fetch(`http://localhost:8000/api/profils/${isUserId}`, { headers: {"Authorization" : `Bearer ${isToken}`} })
         .then((response) => {
           if (!response.ok) {
@@ -42,14 +31,13 @@ const UserContextProvider = ({ children }) => {
           return response.json();
         })
         .then((userData) => {
-           
           setUser(userData);
-          console.log(userData);
-          if(user.imageUrl === null){
-            setIsImageProfil(true);
-          } else {
-            setIsImageProfil(false);
-          }
+          
+          // if(user.imageUrl === null){
+          //   setIsImageProfil(true);
+          // } else {
+          //   setIsImageProfil(false);
+          // }
           setError(null);
         })
         .catch((err) => {
@@ -62,14 +50,16 @@ const UserContextProvider = ({ children }) => {
     };
     
     fetchUser();
-  }, [isToken, isUserId, user.imageUrl]);
+  }, [ isToken, isUserId ]);
+
 
   return (
     // the Provider gives access to the context to its children
     <UserContext.Provider value={user}>
       {children}
     </UserContext.Provider>
+
+  
   );
 };
-
 export { UserContext, UserContextProvider };

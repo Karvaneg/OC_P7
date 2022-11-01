@@ -1,132 +1,157 @@
 import {DocumentTitle} from "../../utils/hooks/setDocumentTitle" 
 import {useDocumentTitle} from "../../utils/hooks/setDocumentTitle"
-//import { TitleH1 } from '../../utils/style/Theme'
-//import { Container, /*Loader,*/ ConnectionForm, ProfileImageDefaut } from '../../utils/style/Theme'
 import { StyledContainer, ConnectionForm, StyledDivImageProfil, StyledImageProfil, StyledProfilInformation, 
-    StyledFirstnameLastname, StyledEmail, StyledDivIconeModifyProfil, StyledIconeModifyProfil, 
-    StyledDivIconeDeleteProfil, StyledIconeDeleteProfil, StyledIconesProfil } from "./profilStyle";
-import React, { useContext, useState } from 'react';
+    StyledFirstnameLastname, StyledEmail, StyledIconesProfil, StyledPublicationsProfil,
+    StyledFooterContenairPost,StyledBodyContenairPost,StyledDivImagePost,StyledImagePost,StyledContenuPost,
+    StyledDescriptionPost,StyledPublishedDate,StyledContenairPosts,StyledCardPost,StyledLike, StyledHeaderContenairPost,
+    StyledAuthorPost,StyledTitlePost,StyledIconesPost, StyledInformationsProfil } from "./profilStyle";
+import React, { useContext, useState, useEffect } from 'react';
 import profile from '../../assets/profile.png'
-import { Loader } from "../../utils/style/theme/loader"
+import { Loader } from "../../utils/style/loader";
+import Moment from 'react-moment';
+import DeletePost from "../../components/Posts/DeletePost";
+import ModifyPost from "../../components/Posts/ModifyPost";
+import AddLike from "../../components/Posts/LikePost";
 import { UserContext } from "../../utils/context/DataUserConnectedContext";
-import crayon from '../../assets/crayon.png'
-import poubelle from '../../assets/poubelle.png'
+import DeleteProfil from "../../components/Profil/DeleteProfil";
+import ModifyProfil from "../../components/Profil/ModifyProfil";
 
 
 export default function Profil() {
     useDocumentTitle(`${DocumentTitle.profil}`);
     const user = useContext(UserContext);
     
-
     // [1] state (état, données)
-
-    //const [user, setUser] = useState(null);
+    const [data, setData] = useState([]);
+    const isToken = localStorage.getItem("token");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const infoUser = JSON.parse(localStorage.getItem("testObject"));
-    // const isToken = infoUser.token;
-    // console.log(isToken);
-    // const userId = infoUser.userId;
-    // console.log(userId);
-    // const isToken = localStorage.getItem("token");
-    // const isUserId = localStorage.getItem("userIdConnected");
-    // const [user, setUser] = useState(isUserId);
-    const [isImageProfil, setIsImageProfil] = useState(false);
+    const [isImageProfil, setIsImageProfil] = useState(true);
+    const [isAdminProfil, setIsAdminProfil] = useState(false);
     
-
-    
-   // console.log("loading2" + loading);
     // [2] comportements
     
-    // useEffect(() => {
-        
-    //     fetch(`http://localhost:8000/api/profils/${isUserId}`, { headers: {"Authorization" : `Bearer ${isToken}`} })
-    //     .then((response) => {
-    //       if (!response.ok) {
-    //         throw new Error(
-    //           `This is an HTTP error: The status is ${response.status}`
-    //         );
-    //       }
-    //       return response.json();
-    //     })
-    //     .then((userData) => {
-           
-    //       setUser(userData);
-    //       console.log(userData);
-    //       if(user.imageUrl === null){
-    //         setIsImageProfil(true);
-    //       } else {
-    //         setIsImageProfil(false);
-    //       }
-    //       setError(null);
-    //     })
-    //     .catch((err) => {
-    //       setError(err.message);
-    //       setUser(null);
-    //     })
-    //     .finally(() => {
-    //       setLoading(false);
-    //     });
-    //    }, [isToken, isUserId, user.imageUrl]);
+    // On récupère tous les posts de la base de données
+    useEffect(() => {
+        fetch('http://localhost:8000/api/posts', { headers: {"Authorization" : `Bearer ${isToken}`} } )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`This is an HTTP error: The status is ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((PostsData) => {
+            // on filtre tous les posts pour n'afficher que les posts de l'utilisateur connecté...
+            const recherche = PostsData.filter((item) => item.userId === user._id);
+ 
+            setData([...recherche]);
+            console.log(recherche);
+            setError(null);
+          })
+          .catch((err) => {
+            setError(err.message);
+            setData(null);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+        }, [isToken, user._id]);
 
+        useEffect(() => {
+            if(user.imageUrl){
+                setIsImageProfil(true);
+            } else {
+                setIsImageProfil(false);
+            };
+        }, [user.imageUrl]);
+
+        useEffect(() => {
+            if(user.isAdmin === true){
+                setIsAdminProfil(false);
+            } else {
+                setIsAdminProfil(true);
+            };
+        }, [ user.isAdmin ]);
 
 
     // [3] affichage (render et rerender)
     return (
-        <StyledContainer>
+        <div>
             <h1>
-                Profil
+               Mon Profil
             </h1>
             {loading && <Loader></Loader>}
             {error && (
                 <div>{`Nous rencontrons un problème pour récupérer les données du profil et pour les afficher. - ${error}`}</div>
             )}
-            
-            { isImageProfil ? (    
+            <StyledContainer>
+                <StyledInformationsProfil>
+                    <h2>
+                        Mes informations personnelles
+                    </h2>
                     <ConnectionForm>
-                        
                         <StyledDivImageProfil>
+                        { isImageProfil ? ( 
                             <StyledImageProfil src={user.imageUrl} alt="imageUser" />
+                        ) : (
+                            <StyledImageProfil src={profile} alt="profileImageDefaut" />
+                        )}
                         </StyledDivImageProfil>
-                        <div>
-                        <StyledDivIconeModifyProfil>
-                            <StyledIconeModifyProfil src={crayon} /*onClick={modifyPost}*/ alt="imageModifyPost" />
-                        </StyledDivIconeModifyProfil>
-                        <StyledDivIconeDeleteProfil>
-                            {/* <DeleteProfil data={data} setData={setData} idPost={item._id} idUserPost={item.userId} /> */}
-                            <StyledIconeDeleteProfil src={poubelle} /*onClick={deletePost}*/ alt="imageDeletePost" />
-                            </StyledDivIconeDeleteProfil>
-                        </div>
+                        { isAdminProfil ? ( 
+                        <StyledIconesProfil>
+                            <ModifyProfil userProfil={user} />
+                            <DeleteProfil userProfil={user} /> 
+                        </StyledIconesProfil>
+                        ) : (
+                            <StyledIconesProfil></StyledIconesProfil>
+                        )}  
                         <StyledProfilInformation>
                                 <StyledFirstnameLastname>{user.firstname} {user.lastname}</StyledFirstnameLastname>
-                                <StyledEmail>email : {user.email}</StyledEmail>
-                        </StyledProfilInformation> 
-                    </ConnectionForm>   
-            ) : (
-                        <ConnectionForm>
-                            
-                            <StyledDivImageProfil>
-                                <StyledImageProfil src={profile} alt="profileImageDefaut" />
-                            </StyledDivImageProfil>
-                            <StyledIconesProfil>
-                            <StyledDivIconeModifyProfil>
-                                <StyledIconeModifyProfil src={crayon} /*onClick={modifyPost}*/ alt="imageModifyPost" />
-                            </StyledDivIconeModifyProfil>
-                            <StyledDivIconeDeleteProfil>
-                            {/* <DeleteProfil data={data} setData={setData} idPost={item._id} idUserPost={item.userId} /> */}
-                             <StyledIconeDeleteProfil src={poubelle} /*onClick={deletePost}*/ alt="imageDeletePost" /> 
-                            </StyledDivIconeDeleteProfil>
-                            </StyledIconesProfil>
-                            <StyledProfilInformation>
-                                <StyledFirstnameLastname>{user.firstname} {user.lastname}</StyledFirstnameLastname>
                                 <StyledEmail>{user.email}</StyledEmail>
-                                {/* <div>userId : {user._id}</div>
-                                <div>Admin ? {String(user.isAdmin)}</div> */}
-                            </StyledProfilInformation>
-                        </ConnectionForm>
-            )} 
-            
-              
-        </StyledContainer>
+                        </StyledProfilInformation> 
+                    </ConnectionForm>
+                </StyledInformationsProfil>
+
+                <StyledPublicationsProfil>
+                    <h2>
+                        Mes publications
+                    </h2>
+                    <StyledContenairPosts>
+                        {data && data.map((item) => (
+                            <StyledCardPost key={item._id}>
+                                <StyledHeaderContenairPost>
+                                    <StyledAuthorPost key={"AuthorPost" +user._id}>Auteur : {user.firstname} {user.lastname} </StyledAuthorPost>
+                                    <StyledTitlePost key={"title" +item.title+item._id}>{item.title}</StyledTitlePost>
+                                    <StyledIconesPost>
+                                        <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
+                                        <DeletePost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
+                                    </StyledIconesPost>
+                                </StyledHeaderContenairPost>
+
+                                <StyledBodyContenairPost>
+                                    <StyledDivImagePost>
+                                        <StyledImagePost key={"title" +item.imageUrl+item._id} src={item.imageUrl} alt="imagePost" />
+                                    </StyledDivImagePost>
+                                    <StyledContenuPost>
+                                        <StyledDescriptionPost key={"title" +item.description+item._id}>{item.description}</StyledDescriptionPost>
+                                    </StyledContenuPost>
+                                </StyledBodyContenairPost>
+
+                                <StyledFooterContenairPost>
+                                    <StyledPublishedDate>
+                                        Publié le : <Moment format="DD/MM/YYYY" key={"date" +item.userId+item.publishedDate}>{item.publishedDate}</Moment>
+                                    </StyledPublishedDate>
+                                    <div>
+                                        <StyledLike>
+                                            <AddLike key={"likes" +item.likes+item._id} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
+                                        </StyledLike>
+                                    </div>
+                                </StyledFooterContenairPost>
+                            </StyledCardPost>
+                        ))}
+                    </StyledContenairPosts>
+                </StyledPublicationsProfil>
+            </StyledContainer>
+        </div>
     );
 }

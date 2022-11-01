@@ -1,12 +1,12 @@
 import poubelle from '../../assets/poubelle.png'
-import { StyledIconeDeletePost } from '../../pages/Dashboard/dashboardStyle';
-import React, { useContext, useEffect } from 'react';
+import { StyledIconeDeletePost, StyledDivIconeDeletePost } from './deletePostStyle';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../utils/context/DataUserConnectedContext';
 
 function DeletePost({ data, setData, idPost, idUserPost  }) {
     const user = useContext(UserContext);
     const isToken = localStorage.getItem("token");
-      console.log(user, user.isAdmin, user._id, idUserPost);
+    const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
 
     function onDelete() {
         // On vérifie que l'utilisateur connecté est l'auteur du post ou que l'utilisateur connecté est l'admin
@@ -22,7 +22,6 @@ function DeletePost({ data, setData, idPost, idUserPost  }) {
                   console.log(response.status);
                   // On met à jour le DOM en ne gardant que les posts dont l'id est différent de celui sélectionné pour la suppression
                   const recherche = data.filter((item) => item._id !== idPost);
-                    console.log(recherche);
                     setData(recherche);
                     alert ("Le post a bien été supprimé.");
                 })
@@ -35,6 +34,29 @@ function DeletePost({ data, setData, idPost, idUserPost  }) {
           alert("Vous n'êtes pas autorisé à supprimer ce post !");
         }
     }
-    return <StyledIconeDeletePost src={poubelle} onClick={onDelete} alt="imageDeletePost" />;
+    // on regarde si l'utilisateur connecté est l'auteur du post ou s'il est l'admin...
+    useEffect(() => {
+      // ...pour afficher les icônes "modifier" et "supprimer" au niveau des posts
+      if(idUserPost === user._id || user.isAdmin === true){
+          setIsAuthorOrAdmin(true);
+      // ... ou ne pas les afficher    
+      } else {
+          setIsAuthorOrAdmin(false);  
+      };
+    }, [idUserPost, user._id, user.isAdmin]);
+
+
+    return (
+      <div>
+        { isAuthorOrAdmin && (
+        <StyledDivIconeDeletePost>
+          <StyledIconeDeletePost src={poubelle} onClick={onDelete} alt="imageDeletePost" />
+        </StyledDivIconeDeletePost>
+        )} 
+        { isAuthorOrAdmin === false && (
+          null
+        )}
+      </div>
+    )
 }
 export default DeletePost;

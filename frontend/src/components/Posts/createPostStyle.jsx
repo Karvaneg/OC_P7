@@ -44,26 +44,3 @@ export const StyledTextSpecifiedFormatFile = styled.div`
         font-size: 12px;
         margin-bottom: 4px;
 `
-
-// Bloc "Modifier" d'un Post
-export const StyledDivIconeModifyPost = styled.div`
-        width:35px;
-        height:35px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50px;
-        border: solid 1px #ECECEE;
-            &:hover{
-                background-color: white;
-                border-radius: 50px;
-                border: solid 1px #DADBDE;
-                width:35px;
-                height:35px;
-            }
-`
-// Icône "Modifier" d'un Post
-export const StyledIconeModifyPost = styled.img`
-        width: 20px;
-`

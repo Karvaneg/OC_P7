@@ -34,53 +34,56 @@ exports.createPost = (req, res, next) => {
         ...postObject,
         ...req.file,
         userId: req.auth.userId,
-       // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     console.log(post);
     console.log(req.body);
     console.log(req.file);
     post.save() //on utilise la méthode save pour enregistrer Post dans la base de données, elle renvoie une promise
-        .then(() => { res.status(201).json({ message: 'Nouveau Post créé !'})}) // on renvoie une réponse de réussite
+        .then(() => { res.status(201).json({ post })}) // on renvoie une réponse de réussite
         .catch(error => { res.status(400).json({ error })}); // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
 };
 
 // Controleur pour la modification d'un post
 exports.modifyPost = (req, res, next) => {
     const postObject = req.file ? {
-        ...req.body.post,
+        ...req.body,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
     console.log(req.body);
     delete postObject._userId;
     Post.findOne({_id: req.params.id})
         .then((post) => {
-            // On vérifie si l'auteur du post est bien la personne connectée
-            // si ce n'est pas le cas, on renvoie un message d'erreur
-            if (post.userId != req.auth.userId) {
-                res.status(403).json({ message : 'Requête non autorisée !'});
-            } 
-            // Sinon
-            else {
+          User.findById(req.auth.userId)
+            .then(user => {
+              // On vérifie si l'auteur du post est bien la personne connectée ou si la personne connectée est l'admin
+              // si ce n'est pas le cas, on renvoie un message d'erreur
+              if(user.isAdmin != false || post.userId === req.auth.userId) {
                 // On récupère le contenu du fichier image dans la requête 
                 const testReqFile = req.file;
                 // S'il n'existe pas, on met simplement à jour les modifications
                 if (!testReqFile){
-                    Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
-                        .then(() => res.status(200).json({message : 'Post modifié !'}))
-                        .catch(error => res.status(401).json({ error }));
+                   Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
+                       .then(() => res.status(200).json({post}))
+                       .catch(error => res.status(401).json({ error }));
                 } 
                 // S'il existe, il faut supprimer l'ancienne image dans le dossier 'images'
                 else {
-                    // On récupère le nom du fichier de l'image du post dans le dossier images
-                    const filenameStock = post.imageUrl.split('/images/')[1];
-                    // Et, on le supprime avec 'unlink', puis on met à jour les modifications
-                    fs.unlink(`images/${filenameStock}`, () => {
-                        Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
-                        .then(() => res.status(200).json({message : 'Post modifié !'}))
-                        .catch(error => res.status(401).json({ error }));
-                    }) 
-                } 
-            }
+                   // On récupère le nom du fichier de l'image du post dans le dossier images
+                   const filenameStock = post.imageUrl.split('/images/')[1];
+                   // Et, on le supprime avec 'unlink', puis on met à jour les modifications
+                   fs.unlink(`images/${filenameStock}`, () => {
+                       Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
+                       .then(() => res.status(200).json({post}))
+                       .catch(error => res.status(401).json({ error }));
+                   }) 
+                }  
+              } 
+              // // si ce n'est pas le cas, on renvoie un message d'erreur
+              else {
+                res.status(403).json({ message : 'Requête non autorisée !'});   
+              }
+            })
         })
         .catch((error) => {
             res.status(400).json({ error });
@@ -149,7 +152,7 @@ exports.manageLike = (req, res, next) => {
           $inc: { likes: +1 },
         }
       )
-        .then(() => res.status(200).json({ message: "Like ajouté par l'utilisateur !" }))
+        .then(() => res.status(200).json({ userId, postId, like }))
         .catch((error) => res.status(400).json({ error }));
     }
    
