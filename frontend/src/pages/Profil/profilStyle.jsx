@@ -39,7 +39,8 @@ export const StyledImageProfil = styled.img`
   height: 130px;
   width: 130px;
   border-radius: 50%;
-  border: 1px solid ${colors.tertiary};
+  //border: 1px solid ${colors.tertiary};
+  box-shadow: 1px 1px 15px #ECECEE;
   
 `
 
@@ -51,7 +52,7 @@ export const StyledProfilInformation = styled.div`
 `
 export const StyledFirstnameLastname = styled.div`
 margin-top: 20px;
-border: 1px solid ${colors.tertiary};
+//border: 1px solid ${colors.tertiary};
 padding: 10px;
 background-color: #ECECEE;
 border-radius: 5px;
@@ -61,7 +62,7 @@ border-radius: 5px;
 export const StyledEmail = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
-  border: 1px solid ${colors.tertiary};
+  //border: 1px solid ${colors.tertiary};
   padding: 10px;
   background-color: #ECECEE;
   border-radius: 5px;

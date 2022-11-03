@@ -10,7 +10,7 @@ export const StyledDivIconeDeleteProfil = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        border: solid 1px ${colors.tertiary};
+        border: solid 1px #ECECEE;
         background-color: #ECECEE;
         border-radius: 50px;
             &:hover{

@@ -72,6 +72,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                         setData([...recherche, postModify]);
                     }
                     alert("Le post a bien été modifié !")
+                    toggleModifyPost();
                 })
                 .catch((err) => {
                     console.log("Erreur Fetch", err);
@@ -98,7 +99,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
     <StyledModal>
         { isAuthorOrAdmin && (
             <StyledDivIconeModifyPost>
-                <StyledIconeModifyPost src={crayon} alt="imageModifyPost" className="modal-toggle" onClick={toggleModifyPost} />
+                <StyledIconeModifyPost src={crayon} alt="imageModifyPost" title="Modifier" className="modal-toggle" onClick={toggleModifyPost} />
                     <Modal isShowing={isModifyPost} hide={toggleModifyPost} title="Modifier le post">
                         <form onSubmit={onModify} name="postInfo">
                             <StyledFormGroup>

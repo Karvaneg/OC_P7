@@ -10,7 +10,7 @@ export const StyledDivIconeModifyProfil = styled.div`
         align-items: center;
         justify-content: center;
         border-radius: 50px;
-        border: solid 1px ${colors.tertiary};
+        border: solid 1px #ECECEE;
         background-color: #ECECEE;
             &:hover{
                 background-color: white;
@@ -51,10 +51,6 @@ export const StyledFormGroup = styled.div`
           box-sizing: border-box;
           width: 100%;
           padding: 0.5rem 0.7rem;
-        }
-        & textarea {
-          max-width: 100%;
-          height: 132px;
         }
         & input[type="submit"] {
             background-color: ${colors.secondary};

@@ -19,6 +19,6 @@ const StyledGlobalStyle = createGlobalStyle`
     h2{
         color: ${colors.tertiary};
     }
- 
+
 `
 export default StyledGlobalStyle

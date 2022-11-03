@@ -62,7 +62,8 @@ function ModifyProfil({ userProfil }) {
                         };
                         console.log(profilModify);
                     }
-                    alert("Le profil a bien été modifié !")
+                    alert("Le profil a bien été modifié !");
+                    toggleModifyProfil();
                 })
                 .catch((err) => {
                     console.log("Erreur Fetch", err);
@@ -78,7 +79,7 @@ function ModifyProfil({ userProfil }) {
    return (
     <StyledModal>
             <StyledDivIconeModifyProfil>
-                <StyledIconeModifyProfil src={crayon} alt="imageModifyProfil" className="modal-toggle" onClick={toggleModifyProfil} />
+                <StyledIconeModifyProfil src={crayon} alt="imageModifyProfil" title="Modifier" className="modal-toggle" onClick={toggleModifyProfil} />
                     <Modal isShowing={isModifyProfil} hide={toggleModifyProfil} title="Modifier le profil">
                         <form onSubmit={onModify} name="profilInfo">
                             <StyledFormGroup>

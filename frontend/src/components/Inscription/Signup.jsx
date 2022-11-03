@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import validator from 'validator'
 import { useModal, Modal } from "../../utils/hooks/setModal";
 import { StyledLink, StyledIsConnectSignupText, StyledEyePassword, StyledModal, StyledFormGroup, StyledInfosPassword } from './signupStyle'
 import redEye from '../../assets/red_eye.png'
@@ -17,7 +18,7 @@ function Signup() {
    
    const [emailSignup, setEmailSignup] = useState("👤Email ");
    const [passwordSignup, setPasswordSignup] = useState("🔐️ Mot de passe");
-   
+   const [errorMessage, setErrorMessage] = useState(false);
    const [firstname, setFirstname] = useState("Votre prénom");
    const [lastname, setLastname] = useState("Votre nom");
    const [isSignupError, setIsSignupError] = useState(false);
@@ -41,8 +42,17 @@ function Signup() {
      if(passwordSignup.length <= 1){
        setPasswordSignup("🔐️ Mot de passe");
      } else {
-       setPasswordSignup(event.target.value);
-     }
+     if (validator.isStrongPassword(passwordSignup,{
+        minLength: 8, minLowercase: 1,
+        minUppercase: 1, minNumbers: 2
+      })) {
+        setErrorMessage('Format du mot de passe correct');
+        setPasswordSignup(event.target.value);
+      } else {
+        setErrorMessage('Format du mot de passe incorrect');
+        setPasswordSignup(event.target.value);
+      }
+    }
    };
 
    // du champ firstname
@@ -105,20 +115,31 @@ function Signup() {
                 console.log(data.email);
                 if(data.email === userEmail) {
                     console.log(data.message);
-                    setIsSignupError(true);
                     setIsSignupValid(false);
-  
+                    setIsSignupError(true);
                     setTimeout(function(){
-                       document.location.href = `/`;
+                        toggleRegistrationForm();
+                       //document.location.href = `/`;
                     }, 5000);
                     setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
                 } else {
-                    setIsSignupValid(true);
-                    setIsSignupError(false);
-                    setTimeout(function(){
-                        document.location.href = `/`;
-                     }, 5000);
-                     setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
+                    if (validator.isStrongPassword(passwordSignup,{
+                        minLength: 8, minLowercase: 1,
+                        minUppercase: 1, minNumbers: 2
+                      })) {
+                       // setErrorMessage('Format du mot de passe correct');
+                        setIsSignupValid(true);
+                        setIsSignupError(false);
+                        // setTimeout(function(){
+                              //toggleRegistrationForm();
+                        //     document.location.href = `/`;
+                        //  }, 5000);
+                        //  setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
+                      } else {
+                       // setErrorMessage('Format du mot de passe incorrect');
+                      };
+
+                   
                 }
             })
             .catch((err) => {
@@ -155,11 +176,21 @@ function Signup() {
                         <StyledFormGroup>
                             <input type="email" onChange={emailHandleChangeSignup} name="email" placeholder={emailSignup} title="Votre email" required />
                         </StyledFormGroup>
-                        <StyledFormGroup>
-                            <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
-                            <input type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
-                            <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
-                        </StyledFormGroup>
+                        {errorMessage === true ? (
+                            <StyledFormGroup>
+                                <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
+                                <input class="passwordGreen" type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
+                                <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
+                            </StyledFormGroup>
+                         ) : (
+                            <StyledFormGroup>
+                                <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
+                                <input class="passwordRed" type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
+                                <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
+                                {errorMessage}
+                            </StyledFormGroup>
+                        )}
+                        
                         { isSignupError ? (
                             <StyledIsConnectSignupText>
                                 L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
@@ -185,7 +216,21 @@ function Signup() {
                         </StyledFormGroup>
                     </form>
                 </Modal>
+                <style jsx="true">{`
+        
+
+        .passwordRed, .passwordRed:focus, .passwordRed:active, .passwordRed:focus-visible {
+          border: 2px solid red;
+          background-color: red;
+        }
+
+        .passwordGreen, .passwordGreen:focus, .passwordGreen:active, .passwordGreen:focus-visible {
+            border: 2px solid green;
+            background-color: green;
+          }
+      `}</style>
             </StyledModal>
+            
    )
 }
 export default Signup;

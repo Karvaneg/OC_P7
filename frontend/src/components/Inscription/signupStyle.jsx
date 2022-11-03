@@ -70,3 +70,4 @@ export const StyledIsConnectSignupText = styled.div`
     margin-top: -18px;
 
 `
+

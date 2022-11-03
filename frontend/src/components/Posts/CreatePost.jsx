@@ -42,6 +42,7 @@ function CreatePost({ data, setData }) {
                 .then((postData) => {
                     setData([...data, postData.post]);
                     alert ("Votre post a bien été créé.");
+                    toggleAddPost();
                 })
                 .catch((err) => {
                     console.log("Erreur Fetch", err);
