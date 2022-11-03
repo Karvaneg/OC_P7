@@ -1,19 +1,20 @@
 import crayon from '../../assets/crayon.png'
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../../utils/context/DataUserConnectedContext';
+import { UserContext, } from '../../utils/context/DataUserConnectedContext';
 import { useModal, Modal } from "../../utils/hooks/setModal";
 import { StyledIconeModifyProfil, StyledModal, StyledFormGroup, StyledTextSpecifiedFormatFile, StyledDivIconeModifyProfil }
              from './modifyProfilStyle';
 
 function ModifyProfil({ userProfil }) {
     const { isShowing: isModifyProfil, toggle: toggleModifyProfil} = useModal();
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
+    console.log(user);
     const isToken = localStorage.getItem("token");
     const [imageHandleProfil, setImageHandleProfil] = useState(userProfil.imageUrl);
     const [firstnameHandleProfil, setFirstnameHandleProfil] = useState(userProfil.firstname);
     const [lastnameHandleProfil, setLastnameHandleProfil] = useState(userProfil.lastname);
     const [emailHandleProfil, setEmailHandleProfil] = useState(userProfil.email);
-
+    
     function onModify(event) {
         event.preventDefault();
         // On vérifie que l'utilisateur connecté est l'auteur du post ou que l'utilisateur connecté est l'admin
@@ -43,7 +44,7 @@ function ModifyProfil({ userProfil }) {
                     return response.json();
                 })
                 .then((res) => {
-                    console.log(res.profilObject);
+                    console.log(res);
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement prénom, nom et email
                     if (imageHandleProfil === null) {
                         const profilModify = {
@@ -52,6 +53,7 @@ function ModifyProfil({ userProfil }) {
                             lastname: lastnameHandleProfil,
                         };
                         console.log(profilModify);
+                        setUser(profilModify);
                     } else {
                         // sinon, on met aussi à jour l'image
                         const profilModify = {
@@ -61,6 +63,7 @@ function ModifyProfil({ userProfil }) {
                             imageUrl: imageHandleProfil,
                         };
                         console.log(profilModify);
+                        setUser(profilModify);
                     }
                     alert("Le profil a bien été modifié !");
                     toggleModifyProfil();

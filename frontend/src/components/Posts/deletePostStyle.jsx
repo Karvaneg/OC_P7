@@ -1,5 +1,4 @@
 import styled  from 'styled-components'
-import colors from '../../utils/style/colors'
 
 // Bloc "Supprimer" d'un Post
 export const StyledDivIconeDeletePost = styled.div`

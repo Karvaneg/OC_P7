@@ -19,7 +19,7 @@ import ModifyProfil from "../../components/Profil/ModifyProfil";
 
 export default function Profil() {
     useDocumentTitle(`${DocumentTitle.profil}`);
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     
     // [1] state (état, données)
     const [data, setData] = useState([]);
