@@ -168,7 +168,7 @@ exports.manageLike = (req, res, next) => {
               // On supprime l'userId du tableau des usersLiked et on décrémente likes
               { $pull: { usersLiked: userId }, $inc: { likes: -1 } }
             )
-              .then(() => res.status(200).json({ message: "Like retiré par l'utilisateur !" }))
+              .then(() => res.status(200).json({ userId, postId, like }))
               .catch((error) => res.status(400).json({ error }));
           }
           // // Suppresson dislike

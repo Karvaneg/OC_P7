@@ -10,7 +10,6 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
     const {user, setUser} = useContext(UserContext);
     const isToken = localStorage.getItem("token");
     const postSelect = data.find((itemSelect) => itemSelect._id === idPost);
-   // console.log(postSelect);
     
     const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
     const [imageHandlePost, setImageHandlePost] = useState(postSelect.imageUrl);
@@ -40,6 +39,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                 body:  formData
             };
             // Call API pour la connexion
+            
             fetch(`http://localhost:8000/api/posts/${idPost}`, requestOptions)
                 .then((response) => {
                     return response.json();
@@ -60,6 +60,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                         // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
                        // console.log(postModify);
                         setData([...recherche, postModify]);
+        
                     } else {
                         // sinon, on met aussi à jour l'image
                         const postModify = {
@@ -74,6 +75,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                         // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
                       //  console.log(postModify);
                         setData([...recherche, postModify]);
+                    
                     }
                     alert("Le post a bien été modifié !")
                     toggleModifyPost();
@@ -82,6 +84,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                     console.log("Erreur Fetch", err);
                     alert ("Un problème a été rencontré lors de la modification du post.");
                 });
+            
         } else {
             console.log("Pas admin ou pas auteur du post --> Modification interdite !")
             alert("Vous n'êtes pas autorisé à modifier ce post !");

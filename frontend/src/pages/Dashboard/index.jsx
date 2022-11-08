@@ -40,10 +40,6 @@ function Dashboard() {
         })
         .then((PostsData) => {
           setData(PostsData);
-          console.log(PostsData);
-          const arryusers = PostsData.map((item=>
-           item.publishedDate ));
-           console.log(arryusers);
           setError(null);
         })
         .catch((err) => {
@@ -94,9 +90,6 @@ function Dashboard() {
       )}
 
       <StyledContenairPosts>
-        {/* {data && data.map((item) => {return( */}
-         
-        {/*{data && [...data].sort(data.publishedDate).map((item) => {return(*/}
         {data && [...data].reverse().map((item) => {return( 
             <StyledCardPost key={item._id}>
 

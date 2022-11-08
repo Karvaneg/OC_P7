@@ -11,13 +11,10 @@ function LikePost({ data, setData, numberLike, usersliked, idPost, publishedDate
     const [isLiked, setIsLiked] = useState(false);
 
     const postSelect = data.find(itemSelect => itemSelect._id === idPost);
-     //   console.log(postSelect);
     
     function onLike(event){
         event.preventDefault();
         alert("Clique réalisé sur " +JSON.stringify(idPost)+ "par " +user.firstname + user.lastname);
-      
-        console.log("utilisateur connecté :" + user._id);
     
       // On s'assure que l'id de l'utilisateur n'est pas déjà dans la base de données (dans l'array usersLiked), avant d'ajouter un like 
       if (usersliked.indexOf(user._id) === -1) {
@@ -60,9 +57,7 @@ function LikePost({ data, setData, numberLike, usersliked, idPost, publishedDate
                   const recherche = data.filter((item) => item._id !== idPost);
                       console.log(recherche);
                   setData([...recherche, postModify]);
-                  console.log(data);
-                  
-                  setIsLiked(true);
+                //  setIsLiked(true);
                    
                 alert("Le post a bien été liké !");
               })
@@ -111,8 +106,7 @@ function LikePost({ data, setData, numberLike, usersliked, idPost, publishedDate
                               const recherche = data.filter((item) => item._id !== idPost);
                                   console.log(recherche);
                               setData([...recherche, postModify]);
-                              console.log(data);
-                              setIsLiked(false);
+                            //  setIsLiked(false);
                             alert("Vous avez disliké ce post");
                         })
 
@@ -122,6 +116,20 @@ function LikePost({ data, setData, numberLike, usersliked, idPost, publishedDate
                     });
             }
     }
+
+    useEffect(() => {
+        // si l'utilisateur n'est pas dans la base de données (dans le tableau des utilisateurs qui ont déjà liké le post)
+        if (usersliked.indexOf(user._id) === -1) {
+            // le pouce s'affiche en gris
+            setIsLiked(false);
+            console.log("pouce gris");
+        // sinon
+        } else {
+            // le pouce s'affiche en rouge
+            setIsLiked(true);  
+            console.log("Pouce rouge");
+        };
+    }, [user._id, usersliked, isLiked, setIsLiked]);
 
  return (
     <div>
