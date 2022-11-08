@@ -9,7 +9,8 @@ const UserContextProvider = ({ children }) => {
     
     const isToken = localStorage.getItem("token");
     const isUserId = localStorage.getItem("userIdConnected");
-    const [user, setUser] = useState(isUserId);
+   // const [user, setUser] = useState(isUserId);
+   const [user, setUser] = useState([]);
 
   // [2] comportements
 

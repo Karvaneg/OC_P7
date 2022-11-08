@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    imageUrl: { type: String, default: '' },
+    imageUrl: { type: String, default: 'http://localhost:8000/images/defaultImageProfile.png' },
     isAdmin: { type: Boolean, default: false }
 });
 

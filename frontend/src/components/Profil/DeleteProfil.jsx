@@ -6,7 +6,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { UserContext } from '../../utils/context/DataUserConnectedContext';
 
 function DeleteProfil({ userProfil }) {
-    const user = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const isToken = localStorage.getItem("token");
     console.log(user._id);
     console.log(userProfil._id);
@@ -39,7 +39,7 @@ function DeleteProfil({ userProfil }) {
                                         console.log("Erreur Fetch", err);
                                         alert ("Un problème a été rencontré lors de la suppression du profil.");
                                     });
-                                    
+
                             } else {
                                 console.log("Pas admin ou pas propriétaire du profil --> Suppression interdite !")
                                 alert("Vous n'êtes pas autorisé à supprimer ce profil !");

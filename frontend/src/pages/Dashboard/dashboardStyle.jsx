@@ -62,8 +62,16 @@ export const StyledHeaderContenairPost = styled.div`
 
 // Auteur du Post
 export const StyledAuthorPost = styled.div`
-
+display: flex;
+align-items: center;
 `
+
+export const StyledImageProfil = styled.img`
+        width: 30px;
+        border-radius: 50px;
+        margin-right: 5px;
+`
+
 // Titre du Post
 export const StyledTitlePost = styled.div`
         font-size: 18px;

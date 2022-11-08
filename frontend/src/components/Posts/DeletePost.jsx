@@ -6,7 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 function DeletePost({ data, setData, idPost, idUserPost  }) {
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const isToken = localStorage.getItem("token");
     const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
 

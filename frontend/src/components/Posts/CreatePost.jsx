@@ -5,7 +5,7 @@ import { StyledModal, StyledFormGroup, StyledTextSpecifiedFormatFile } from './c
 
 function CreatePost({ data, setData }) {
     const { isShowing: isAddPost, toggle: toggleAddPost} = useModal();
-    const userConnected = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const isToken = localStorage.getItem("token");
     const [imageHandlePost, setImageHandlePost] = useState("");
     const [titleHandlePost, setTitleHandlePost] = useState("");
@@ -17,7 +17,7 @@ function CreatePost({ data, setData }) {
         formData.append("title", titleHandlePost);
         formData.append("description", descriptionHandlePost);
         formData.append("image", imageHandlePost);
-        formData.append("userId", userConnected._id);
+        formData.append("userId", user._id);
         formData.append("publishedDate", Date.now());
         formData.forEach((value, key) => {
             console.log(key + " " + value);

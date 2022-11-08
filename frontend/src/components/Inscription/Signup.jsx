@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import validator from 'validator'
 import { useModal, Modal } from "../../utils/hooks/setModal";
 import { StyledLink, StyledIsConnectSignupText, StyledEyePassword, StyledModal, StyledFormGroup, StyledInfosPassword } from './signupStyle'
 import redEye from '../../assets/red_eye.png'
@@ -18,12 +17,15 @@ function Signup() {
    
    const [emailSignup, setEmailSignup] = useState("👤Email ");
    const [passwordSignup, setPasswordSignup] = useState("🔐️ Mot de passe");
-   const [errorMessage, setErrorMessage] = useState(false);
    const [firstname, setFirstname] = useState("Votre prénom");
    const [lastname, setLastname] = useState("Votre nom");
-   const [isSignupError, setIsSignupError] = useState(false);
+   const [isEmailInDatabase, setIsEmailInDatabase] = useState(false);
    const [isSignupValid, setIsSignupValid] = useState(false);
+   const [isPasswordError, setIsPasswordError] = useState(false);
    const [decompte, setDecompte] = useState(5);
+   
+   const passwordRegex = /^(?=(.*\d){2,})(?=.*[$-/\\/:-?{-~!"^_'/\\[\]]{0,})(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+   
 
  // [2] comportements
    // du champ email
@@ -42,19 +44,11 @@ function Signup() {
      if(passwordSignup.length <= 1){
        setPasswordSignup("🔐️ Mot de passe");
      } else {
-     if (validator.isStrongPassword(passwordSignup,{
-        minLength: 8, minLowercase: 1,
-        minUppercase: 1, minNumbers: 2
-      })) {
-        setErrorMessage('Format du mot de passe correct');
         setPasswordSignup(event.target.value);
-      } else {
-        setErrorMessage('Format du mot de passe incorrect');
-        setPasswordSignup(event.target.value);
-      }
-    }
+     }
    };
 
+   
    // du champ firstname
    const firstnameHandleChange = (event) => {
      if(firstname.length <= 1){
@@ -77,17 +71,11 @@ function Signup() {
     // Fonction Inscription
     function onSignup(event) {
         event.preventDefault();
-        
-
         // On récupère l'email, le mot de passe, le nom et le prénom renseignés par l'utilisateur
         const userEmail = emailSignup;
-            console.log(userEmail);
         const userPassword = passwordSignup;
-            console.log(userPassword);
         const userFirstname = firstname;
-            console.log(userFirstname);
         const userLastname = lastname;
-            console.log(userLastname);
   
         // On cré un objet dans lequel on met les infos "user"
         const dataUser = {
@@ -105,47 +93,70 @@ function Signup() {
             },
             body: JSON.stringify(dataUser)
         };
-            console.log(dataMethod);
   
-            
         // Call API Iinscription
         fetch("http://localhost:8000/api/auth/signup", dataMethod)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.email);
-                if(data.email === userEmail) {
-                    console.log(data.message);
-                    setIsSignupValid(false);
-                    setIsSignupError(true);
-                    setTimeout(function(){
-                        toggleRegistrationForm();
-                       //document.location.href = `/`;
-                    }, 5000);
-                    setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
-                } else {
-                    if (validator.isStrongPassword(passwordSignup,{
-                        minLength: 8, minLowercase: 1,
-                        minUppercase: 1, minNumbers: 2
-                      })) {
-                       // setErrorMessage('Format du mot de passe correct');
-                        setIsSignupValid(true);
-                        setIsSignupError(false);
-                        // setTimeout(function(){
-                              //toggleRegistrationForm();
-                        //     document.location.href = `/`;
-                        //  }, 5000);
-                        //  setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
-                      } else {
-                       // setErrorMessage('Format du mot de passe incorrect');
-                      };
+                    // si format mot de passe Ok et email déjà dans la base de données ou format mot de passe pas ok et email déjà dans la base de données
+                    if ((passwordSignup.match(passwordRegex) && data.email === userEmail) || (!passwordSignup.match(passwordRegex) && data.email === userEmail)){
+                            // On indique à l'utilisateur qu'il est déjà inscrit
+                            setIsPasswordError(false);
+                            setIsSignupValid(false);
+                            setIsEmailInDatabase(true);
 
-                   
-                }
+                            // on déclenche un décompte à partir de 5 secondes (état initial de "decompte")
+                            const intervalId = setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
+                            // Au bout de 5 secondes, on ferme automatiquement la modal "inscription", on "clear" setInterval,...
+                            //... et on réinitialise "decompte", les différents messages et les inputs (remise à l'état initial)
+                            setTimeout(function(){
+                                toggleRegistrationForm();
+                                setEmailSignup("👤Email ");
+                                setPasswordSignup("🔐️ Mot de passe");
+                                setFirstname("Votre prénom");
+                                setLastname("Votre nom");
+                                setDecompte(5);
+                                clearInterval(intervalId);
+                                setIsPasswordError(false);
+                                setIsSignupValid(false);
+                                setIsEmailInDatabase(false);
+                            }, 5000);
+                    // sinon, si le format du mot de passe est ok et que l'email n'est pas déjà dans la base de données        
+                    } else if ((passwordSignup.match(passwordRegex) && data.email !== userEmail)) {
+                            // On indique à l'utilisateur que son inscription a bien été faite
+                            setIsPasswordError(false);
+                            setIsSignupValid(true);
+                            setIsEmailInDatabase(false);
+
+                            // on déclenche un décompte à partir de 5 secondes (état initial de "decompte")
+                            const intervalId = setInterval(() => setDecompte((decompte) => decompte - 1,), 1000);
+                            // Au bout de 5 secondes, on ferme automatiquement la modal "inscription", on "clear" setInterval,...
+                            //... et on réinitialise "decompte", les différents messages et les inputs (remise à l'état initial)
+                            setTimeout(function(){
+                                toggleRegistrationForm();
+                                setEmailSignup("👤Email ");
+                                setPasswordSignup("🔐️ Mot de passe");
+                                setFirstname("Votre prénom");
+                                setLastname("Votre nom");
+                                setDecompte(5);
+                                clearInterval(intervalId);
+                                setIsPasswordError(false);
+                                setIsSignupValid(false);
+                                setIsEmailInDatabase(false);
+                            }, 5000);
+                    }
+                    // Sinon, si le format du mot de passe n'est pas ok et que l'email n'est pas dans la base de données
+                    else if ((!passwordSignup.match(passwordRegex) && data.email !== userEmail)) {
+                            //On indique à l'utilisateur que le format du mot de passe n'est pas bon
+                            setIsPasswordError(true);
+                            setIsSignupValid(false);
+                            setIsEmailInDatabase(false);
+                    }   
             })
             .catch((err) => {
                 console.log("Erreur Fetch", err);
                 alert ("Un problème a été rencontré lors de l'envoi du formulaire.");
-            });
+            })
     };
     
       // de l'icône oeil
@@ -176,22 +187,14 @@ function Signup() {
                         <StyledFormGroup>
                             <input type="email" onChange={emailHandleChangeSignup} name="email" placeholder={emailSignup} title="Votre email" required />
                         </StyledFormGroup>
-                        {errorMessage === true ? (
-                            <StyledFormGroup>
-                                <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
-                                <input class="passwordGreen" type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
-                                <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
-                            </StyledFormGroup>
-                         ) : (
-                            <StyledFormGroup>
-                                <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
-                                <input class="passwordRed" type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
-                                <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
-                                {errorMessage}
-                            </StyledFormGroup>
-                        )}
                         
-                        { isSignupError ? (
+                            <StyledFormGroup>
+                                <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
+                                <input type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
+                                <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
+                            </StyledFormGroup>
+                        
+                        { isEmailInDatabase ? (
                             <StyledIsConnectSignupText>
                                 L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
                             </StyledIsConnectSignupText>
@@ -205,6 +208,14 @@ function Signup() {
                         ) : (
                             null
                         )}
+                        { isPasswordError ? (
+                            <StyledIsConnectSignupText>
+                                Le format du mot de passe est incorrect !
+                            </StyledIsConnectSignupText>
+                        ) : (
+                            null
+                        )}
+
                         <StyledFormGroup>
                             <input type="text" onChange={firstnameHandleChange} name="firstname" placeholder={firstname} title="Votre prénom"  required />
                         </StyledFormGroup>
@@ -216,21 +227,7 @@ function Signup() {
                         </StyledFormGroup>
                     </form>
                 </Modal>
-                <style jsx="true">{`
-        
-
-        .passwordRed, .passwordRed:focus, .passwordRed:active, .passwordRed:focus-visible {
-          border: 2px solid red;
-          background-color: red;
-        }
-
-        .passwordGreen, .passwordGreen:focus, .passwordGreen:active, .passwordGreen:focus-visible {
-            border: 2px solid green;
-            background-color: green;
-          }
-      `}</style>
             </StyledModal>
-            
    )
 }
 export default Signup;

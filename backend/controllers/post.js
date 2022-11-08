@@ -5,23 +5,6 @@ const User = require('../models/User');
 // On inclut le module fs (filesystem) de Node js pour la gestion des fichiers
 const fs = require('fs');
 
-// Controleur pour la création d'un Post
-// exports.createPost = (req, res, next) => {
-//   const postObject = req.body;
-//   console.log(req.body);
-//   console.log(req.body.post);
-//   console.log(req.auth);
-//   delete postObject._id;
-//   delete postObject._userId;
-//   const post = new Post({
-//       ...postObject,
-//       userId: req.auth.userId,
-//       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file}`
-//   });
-//   post.save() //on utilise la méthode save pour enregistrer Sauce dans la base de données, elle renvoie une promise
-//       .then(() => res.status(201).json({ message: 'Post enregistré !'})) // on renvoie une réponse de réussite
-//       .catch(error => res.status(400).json({ error })); // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
-// };
 exports.createPost = (req, res, next) => {
   const postObject = req.file ? {
     ...req.body.post,
@@ -36,9 +19,6 @@ exports.createPost = (req, res, next) => {
         userId: req.auth.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    console.log(post);
-    console.log(req.body);
-    console.log(req.file);
     post.save() //on utilise la méthode save pour enregistrer Post dans la base de données, elle renvoie une promise
         .then(() => { res.status(201).json({ post })}) // on renvoie une réponse de réussite
         .catch(error => { res.status(400).json({ error })}); // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
@@ -50,7 +30,6 @@ exports.modifyPost = (req, res, next) => {
         ...req.body,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-    console.log(req.body);
     delete postObject._userId;
     Post.findOne({_id: req.params.id})
         .then((post) => {
@@ -64,7 +43,7 @@ exports.modifyPost = (req, res, next) => {
                 // S'il n'existe pas, on met simplement à jour les modifications
                 if (!testReqFile){
                    Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
-                       .then(() => res.status(200).json({post}))
+                       .then(() => res.status(200).json({postObject}))
                        .catch(error => res.status(401).json({ error }));
                 } 
                 // S'il existe, il faut supprimer l'ancienne image dans le dossier 'images'
@@ -74,7 +53,7 @@ exports.modifyPost = (req, res, next) => {
                    // Et, on le supprime avec 'unlink', puis on met à jour les modifications
                    fs.unlink(`images/${filenameStock}`, () => {
                        Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id})
-                       .then(() => res.status(200).json({post}))
+                       .then(() => res.status(200).json({postObject}))
                        .catch(error => res.status(401).json({ error }));
                    }) 
                 }  
@@ -156,25 +135,25 @@ exports.manageLike = (req, res, next) => {
         .catch((error) => res.status(400).json({ error }));
     }
    
-    if (like === -1) {
-      // Si l'utilisateur clique sur le pouce disLike pour la première fois
-      // => on met à jour le post ayant cet Id
-      Post.updateOne(
-        { _id: postId },
-        {
-          // [ mongoDB push operator ]
-          // On ajoute (on pousse) l'userId au tableau [array] des usersDisliked
-          $push: { usersDisliked: userId },
-          // [ mongoDB increment operator ]
-          // On incrémente dislikes
-          $inc: { dislikes: +1 },
-        }
-      )
-        .then(() => res.status(200).json({ message: "Dislike ajouté par l'utilisateur !" }))
-        .catch((error) => res.status(400).json({ error }));
-    }
+    // if (like === -1) {
+    //   // Si l'utilisateur clique sur le pouce disLike pour la première fois
+    //   // => on met à jour le post ayant cet Id
+    //   Post.updateOne(
+    //     { _id: postId },
+    //     {
+    //       // [ mongoDB push operator ]
+    //       // On ajoute (on pousse) l'userId au tableau [array] des usersDisliked
+    //       $push: { usersDisliked: userId },
+    //       // [ mongoDB increment operator ]
+    //       // On incrémente dislikes
+    //       $inc: { dislikes: +1 },
+    //     }
+    //   )
+    //     .then(() => res.status(200).json({ message: "Dislike ajouté par l'utilisateur !" }))
+    //     .catch((error) => res.status(400).json({ error }));
+    // }
    
-    // Suppression like ou dislike
+    // Suppression like
     if (like === 0) {
       Post.findOne({
         _id: postId,
@@ -192,18 +171,18 @@ exports.manageLike = (req, res, next) => {
               .then(() => res.status(200).json({ message: "Like retiré par l'utilisateur !" }))
               .catch((error) => res.status(400).json({ error }));
           }
-          // Suppresson dislike
-          // Si l'utilisateur a déjà cliqué sur le pouce disLike donc si l'userId est inclus dans le tableau des usersDisliked
-          if (post.usersDisliked.includes(userId)) {
-            Post.updateOne(
-              { _id: postId },
-              // [ mongoDB pull operator ]
-              // On supprime l'userId du tableau des usersDisliked et on décrémente disLikes
-              { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 } }
-            )
-              .then(() => res.status(200).json({ message: "Dislike retiré par l'utilisateur !" }))
-              .catch((error) => res.status(400).json({ error }));
-          }
+          // // Suppresson dislike
+          // // Si l'utilisateur a déjà cliqué sur le pouce disLike donc si l'userId est inclus dans le tableau des usersDisliked
+          // if (post.usersDisliked.includes(userId)) {
+          //   Post.updateOne(
+          //     { _id: postId },
+          //     // [ mongoDB pull operator ]
+          //     // On supprime l'userId du tableau des usersDisliked et on décrémente disLikes
+          //     { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 } }
+          //   )
+          //     .then(() => res.status(200).json({ message: "Dislike retiré par l'utilisateur !" }))
+          //     .catch((error) => res.status(400).json({ error }));
+          // }
         })
         .catch((error) => res.status(400).json({ error }));
     }

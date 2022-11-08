@@ -1,6 +1,7 @@
 # On exclut tout (dossier et contenu)
 node_modules
 images/*
+!images/defaultImageProfile.png
 .env
 
 # Exception à la règle (on conserve le dossier images même s'il est vide)

@@ -5,15 +5,20 @@ import { useModal, Modal } from "../../utils/hooks/setModal";
 import { StyledIconeModifyProfil, StyledModal, StyledFormGroup, StyledTextSpecifiedFormatFile, StyledDivIconeModifyProfil }
              from './modifyProfilStyle';
 
-function ModifyProfil({ userProfil }) {
+function ModifyProfil({ userProfil, setUserProfil }) {
     const { isShowing: isModifyProfil, toggle: toggleModifyProfil} = useModal();
     const {user, setUser} = useContext(UserContext);
-    console.log(user);
     const isToken = localStorage.getItem("token");
+    // const userImageProfil = userProfil.imageUrl;
+    // const userFirstnameProfil = userProfil.firstname;
+    // const userLastnameProfil = userProfil.lastname;
+    // const userEmailProfil = userProfil.email;
+ //   console.log("Image :" + userImageProfil + " Prénom :" + userFirstnameProfil + " Nom :" + userLastnameProfil + " Email :" + userEmailProfil);
     const [imageHandleProfil, setImageHandleProfil] = useState(userProfil.imageUrl);
     const [firstnameHandleProfil, setFirstnameHandleProfil] = useState(userProfil.firstname);
     const [lastnameHandleProfil, setLastnameHandleProfil] = useState(userProfil.lastname);
     const [emailHandleProfil, setEmailHandleProfil] = useState(userProfil.email);
+    console.log("Image :" + imageHandleProfil + " Prénom :" + firstnameHandleProfil + " Nom :" + lastnameHandleProfil + " Email :" + emailHandleProfil);
     
     function onModify(event) {
         event.preventDefault();
@@ -24,9 +29,9 @@ function ModifyProfil({ userProfil }) {
             formData.append("lastname", lastnameHandleProfil);
             formData.append("image", imageHandleProfil);
             formData.append("email", emailHandleProfil);
-            // formData.forEach((value, key) => {
-            //     console.log(key + " " + value);
-            // })
+            formData.forEach((value, key) => {
+                 console.log(key + " " + value);
+             })
 
             // On indique la méthode d'envoi des données
             // Options de la requête fetch => PUT et Autorisation
@@ -39,18 +44,27 @@ function ModifyProfil({ userProfil }) {
                 body:  formData
             };
             // Call API pour la connexion
-            fetch(`http://localhost:8000/api/profils/${userProfil._id}`, requestOptions)
+            fetch(`http://localhost:8000/api/profils/${user._id}`, requestOptions)
                 .then((response) => {
                     return response.json();
                 })
                 .then((res) => {
-                    console.log(res);
+                    console.log(res.profilObject);
+                   // console.log(res.profilObject.image);
+                    console.log(imageHandleProfil);
+                    console.log(user.imageUrl);
+                    console.log(userProfil.imageUrl);
+                    console.log(res.profilObject.image);
+                    console.log(res.profilObject.imageUrl);
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement prénom, nom et email
-                    if (imageHandleProfil === null) {
+                    if (imageHandleProfil === res.profilObject.image) {
                         const profilModify = {
                             email: emailHandleProfil,
                             firstname: firstnameHandleProfil,
                             lastname: lastnameHandleProfil,
+                            _id: user._id,
+                            isAdmin: user.isAdmin,
+                            imageUrl: imageHandleProfil
                         };
                         console.log(profilModify);
                         setUser(profilModify);
@@ -60,7 +74,9 @@ function ModifyProfil({ userProfil }) {
                             email: emailHandleProfil,
                             firstname: firstnameHandleProfil,
                             lastname: lastnameHandleProfil,
-                            imageUrl: imageHandleProfil,
+                            imageUrl: res.profilObject.imageUrl,
+                            _id: user._id,
+                            isAdmin: user.isAdmin
                         };
                         console.log(profilModify);
                         setUser(profilModify);

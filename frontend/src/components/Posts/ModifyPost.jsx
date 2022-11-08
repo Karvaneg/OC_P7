@@ -7,9 +7,11 @@ import { StyledIconeModifyPost, StyledModal, StyledFormGroup, StyledTextSpecifie
 
 function ModifyPost({ data, setData, idPost, idUserPost  }) {
     const { isShowing: isModifyPost, toggle: toggleModifyPost} = useModal();
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const isToken = localStorage.getItem("token");
     const postSelect = data.find((itemSelect) => itemSelect._id === idPost);
+   // console.log(postSelect);
+    
     const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
     const [imageHandlePost, setImageHandlePost] = useState(postSelect.imageUrl);
     const [titleHandlePost, setTitleHandlePost] = useState(postSelect.title);
@@ -23,9 +25,9 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
             formData.append("title", titleHandlePost);
             formData.append("description", descriptionHandlePost);
             formData.append("image", imageHandlePost);
-            // formData.forEach((value, key) => {
-            //     console.log(key + " " + value);
-            // })
+            formData.forEach((value, key) => {
+                console.log(key + " " + value);
+            })
 
             // On indique la méthode d'envoi des données
             // Options de la requête fetch => PUT et Autorisation
@@ -43,19 +45,20 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                     return response.json();
                 })
                 .then((res) => {
-                    console.log(res);
+                    
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement le titre et la description
-                    if (res.post.imageUrl === null) {
+                    if (res.postObject.image === imageHandlePost) {
                         const postModify = {
                             ...postSelect,
                             _id: idPost,
                             title: titleHandlePost,
                             description: descriptionHandlePost,
-                            imageUrl: imageHandlePost
+                           // imageUrl: imageHandlePost
                         };
                         // on filtre tous les posts sauf le post qui est en train d'être modifié...
                         const recherche = data.filter((item) => item._id !== idPost);
                         // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
+                       // console.log(postModify);
                         setData([...recherche, postModify]);
                     } else {
                         // sinon, on met aussi à jour l'image
@@ -64,11 +67,12 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                             _id: idPost,
                             title: titleHandlePost,
                             description: descriptionHandlePost,
-                            imageUrl: res.post.imageUrl
+                            imageUrl: res.postObject.imageUrl
                         };
                         // on filtre tous les posts sauf le post qui est en train d'être modifié...
                         const recherche = data.filter((item) => item._id !== idPost);
                         // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
+                      //  console.log(postModify);
                         setData([...recherche, postModify]);
                     }
                     alert("Le post a bien été modifié !")
@@ -109,7 +113,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                                 <textarea name="description" onChange={(e) => setDescriptionHandlePost(e.target.value)} value={descriptionHandlePost} placeholder="Description" required></textarea>
                             </StyledFormGroup>
                             <StyledFormGroup>
-                                <img src={imageHandlePost} alt="imagePost" width= "60px" />
+                                <img src={postSelect.imageUrl} alt="imagePost" width= "60px" />
                                 <StyledTextSpecifiedFormatFile>Choisissez une autre image à télécharger au format autorisé (PNG, JPG ou JPEG)</StyledTextSpecifiedFormatFile>
                                 <input id="fileImagePost" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandlePost(e.target.files[0], e.target.files[0].name)} />
                             </StyledFormGroup>

@@ -6,7 +6,7 @@ import { StyledContainer, ConnectionForm, StyledDivImageProfil, StyledImageProfi
     StyledDescriptionPost,StyledPublishedDate,StyledContenairPosts,StyledCardPost,StyledLike, StyledHeaderContenairPost,
     StyledAuthorPost,StyledTitlePost,StyledIconesPost, StyledInformationsProfil } from "./profilStyle";
 import React, { useContext, useState, useEffect } from 'react';
-import profile from '../../assets/profile.png'
+import profile from '../../assets/defaultImageProfile.png'
 import { Loader } from "../../utils/style/loader";
 import Moment from 'react-moment';
 import DeletePost from "../../components/Posts/DeletePost";
@@ -20,7 +20,6 @@ import ModifyProfil from "../../components/Profil/ModifyProfil";
 export default function Profil() {
     useDocumentTitle(`${DocumentTitle.profil}`);
     const {user, setUser} = useContext(UserContext);
-    
     // [1] state (état, données)
     const [data, setData] = useState([]);
     const isToken = localStorage.getItem("token");
@@ -58,10 +57,10 @@ export default function Profil() {
         }, [isToken, user._id]);
 
         useEffect(() => {
-            if(user.imageUrl){
-                setIsImageProfil(true);
-            } else {
+            if(user.imageUrl === "undefined" || user.imageUrl === ""){
                 setIsImageProfil(false);
+            } else {
+                setIsImageProfil(true);
             };
         }, [user.imageUrl]);
 
@@ -99,11 +98,13 @@ export default function Profil() {
                         </StyledDivImageProfil>
                         { isAdminProfil ? ( 
                         <StyledIconesProfil>
-                            <ModifyProfil userProfil={user} />
+                            <ModifyProfil userProfil={user} setUserProfil={setUser} />
                             <DeleteProfil userProfil={user} /> 
                         </StyledIconesProfil>
                         ) : (
-                            <StyledIconesProfil></StyledIconesProfil>
+                            <StyledIconesProfil>
+                                <ModifyProfil userProfil={user} setUserProfil={setUser} />
+                            </StyledIconesProfil>
                         )}  
                         <StyledProfilInformation>
                                 <StyledFirstnameLastname>{user.firstname} {user.lastname}</StyledFirstnameLastname>

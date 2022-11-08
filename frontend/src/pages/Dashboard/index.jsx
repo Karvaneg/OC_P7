@@ -2,7 +2,7 @@ import { DocumentTitle, useDocumentTitle } from "../../utils/hooks/setDocumentTi
 import { StyledHeaderContenairPost, StyledContenairPosts, StyledCardPost, StyledAuthorPost, StyledBodyContenairPost, 
   StyledFooterContenairPost, StyledDivImagePost, StyledPublishedDate, StyledLike, 
   StyledImagePost, StyledContenuPost, StyledDescriptionPost, StyledTitlePost, StyledIconesPost, 
-  StyledHeaderDashBoard, StyledModal } from './dashboardStyle'
+  StyledHeaderDashBoard, StyledModal, StyledImageProfil } from './dashboardStyle'
 import React, { useState, useEffect, useContext } from "react"
 import Moment from 'react-moment';
 import { Loader } from "../../utils/style/loader";
@@ -15,14 +15,17 @@ import { UserContext } from "../../utils/context/DataUserConnectedContext";
 
 function Dashboard() {
     useDocumentTitle(`${DocumentTitle.dashboard}`);
-    const userConnected = useContext(UserContext);
+   // const userConnected = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
+   // console.log(user);
 
   // [1] state (état, données)
     const token = localStorage.getItem("token");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [user, setUser] = useState();
+    const [userData, setUserData] = useState();
+    const [isLiked, setIsLiked] = useState(false);
 
   // [2] comportements
 
@@ -37,6 +40,10 @@ function Dashboard() {
         })
         .then((PostsData) => {
           setData(PostsData);
+          console.log(PostsData);
+          const arryusers = PostsData.map((item=>
+           item.publishedDate ));
+           console.log(arryusers);
           setError(null);
         })
         .catch((err) => {
@@ -58,12 +65,12 @@ function Dashboard() {
             return response.json();
             })
         .then((usersData) => {
-            setUser(usersData);
+            setUserData(usersData);
             setError(null);
         })
         .catch((err) => {
             setError(err.message);
-            setUser(null);
+            setUserData(null);
         })
         .finally(() => {
           setLoading(false);
@@ -73,7 +80,7 @@ function Dashboard() {
   // [3] affichage (render et rerender)
   return (
     <div>
-      <h1>Bienvenue {userConnected.firstname} {userConnected.lastname} !</h1>
+      <h1>Bienvenue {user.firstname} {user.lastname} !</h1>
 
       <StyledHeaderDashBoard>
         <StyledModal>
@@ -87,20 +94,22 @@ function Dashboard() {
       )}
 
       <StyledContenairPosts>
-
-        {data && [...data].reverse().map((item) => {return(
-            <StyledCardPost key={item.publishedDate}>
+        {/* {data && data.map((item) => {return( */}
+         
+        {/*{data && [...data].sort(data.publishedDate).map((item) => {return(*/}
+        {data && [...data].reverse().map((item) => {return( 
+            <StyledCardPost key={item._id}>
 
                 <StyledHeaderContenairPost>
-                    {user && user.map((author) => {
+                    {userData && userData.map((author) => {
                         if(author._id === item.userId){
-                            return <StyledAuthorPost key={"AuthorPost" +author._id}>Auteur : {author.firstname} {author.lastname} </StyledAuthorPost>
+                            return <StyledAuthorPost key={author._id}><StyledImageProfil src={author.imageUrl} alt="PhotoUtilisateur"/> {author.firstname} {author.lastname} </StyledAuthorPost>
                         } else {
                             return null
                         }
                     })}
            {/* //////// Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
-                    <StyledTitlePost key={"title" +item.title+item._id}>{item.title}</StyledTitlePost>
+                    <StyledTitlePost>{item.title}</StyledTitlePost>
                     <StyledIconesPost>
                         <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
                         <DeletePost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
@@ -109,20 +118,20 @@ function Dashboard() {
 
                 <StyledBodyContenairPost>
                     <StyledDivImagePost>
-                      <StyledImagePost key={"title" +item.imageUrl+item._id} src={item.imageUrl} alt="imagePost" />
+                      <StyledImagePost src={item.imageUrl} alt="imagePost" />
                     </StyledDivImagePost>
                     <StyledContenuPost>
-                        <StyledDescriptionPost key={"title" +item.description+item._id}>{item.description}</StyledDescriptionPost>
+                        <StyledDescriptionPost>{item.description}</StyledDescriptionPost>
                     </StyledContenuPost>
                 </StyledBodyContenairPost>
 
                 <StyledFooterContenairPost>
                     <StyledPublishedDate>
-                      Publié le : <Moment format="DD/MM/YYYY" key={"date" +item.userId+item.publishedDate}>{item.publishedDate}</Moment>
+                      Publié le : <Moment format="DD/MM/YYYY">{item.publishedDate}</Moment>
                     </StyledPublishedDate>
                     <div>
                         <StyledLike>
-                            <AddLike key={"likes" +item.likes+item._id} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
+                            <AddLike publishedDate={item.publishedDate} isLiked={isLiked} setIsLiket={setIsLiked} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
                         </StyledLike>
                     </div>
                 </StyledFooterContenairPost>

@@ -1,4 +1,4 @@
-import profile from '../../assets/profile.png'
+import profile from '../../assets/defaultImageProfile.png'
 import { StyledIsConnectSignupText, StyledProfileImageDefaut, StyledEyePassword, StyledContainer, 
   StyledConnectionForm, StyledInfosPassword } from './connexionStyle'
 import { DocumentTitle } from "../../utils/hooks/setDocumentTitle" 
@@ -69,13 +69,11 @@ function Connexion() {
       fetch("http://localhost:8000/api/auth/login", dataMethod)
       .then((response) => response.json())
       .then((data) => {
-          console.log(data);
-
         if (data.token) {
-          console.log(data.token);
           setIsConnect(false);
           localStorage.setItem("token", data.token);
           localStorage.setItem("userIdConnected", data.userId);
+          localStorage.setItem("dateConnection", Date.now());
           document.location.href = `/dashboard`;
         } else {
           setIsConnect(true);
