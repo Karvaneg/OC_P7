@@ -55,6 +55,7 @@ export const StyledDivIconeModifyPost = styled.div`
         justify-content: center;
         border-radius: 50px;
         border: solid 1px #ECECEE;
+        cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;

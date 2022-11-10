@@ -12,6 +12,7 @@ export const StyledDivIconeModifyProfil = styled.div`
         border-radius: 50px;
         border: solid 1px #ECECEE;
         background-color: #ECECEE;
+        cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;

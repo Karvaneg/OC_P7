@@ -55,14 +55,14 @@ function CreatePost({ data, setData }) {
         <Modal isShowing={isAddPost} hide={toggleAddPost} title="Ajouter un post">
             <form onSubmit={onCreate} name="postInfo">
               <StyledFormGroup>
-                <input type="text" name="title" onChange={(e) => setTitleHandlePost(e.target.value)} value={titleHandlePost} placeholder="Titre" required/>
+                <input aria-label="Titre du post" type="text" name="title" onChange={(e) => setTitleHandlePost(e.target.value)} value={titleHandlePost} placeholder="Titre" required/>
               </StyledFormGroup>
               <StyledFormGroup>
-                <textarea name="description" onChange={(e) => setDescriptionHandlePost(e.target.value)} value={descriptionHandlePost} placeholder="Description" required></textarea>
+                <textarea aria-label="Description du post" name="description" onChange={(e) => setDescriptionHandlePost(e.target.value)} value={descriptionHandlePost} placeholder="Description" required></textarea>
               </StyledFormGroup>
               <StyledFormGroup>
                 <StyledTextSpecifiedFormatFile>Choisissez une image à télécharger au format autorisé (PNG, JPG ou JPEG)</StyledTextSpecifiedFormatFile>
-                <input id="fileImagePost" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandlePost(e.target.files[0], e.target.files[0].name)} required/>
+                <input aria-label="Image du post" id="fileImagePost" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandlePost(e.target.files[0], e.target.files[0].name)} required/>
               </StyledFormGroup>
               <StyledFormGroup>
                 <input type="submit" value="Valider" />

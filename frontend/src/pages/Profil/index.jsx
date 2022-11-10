@@ -4,7 +4,7 @@ import { StyledContainer, ConnectionForm, StyledDivImageProfil, StyledImageProfi
     StyledFirstnameLastname, StyledEmail, StyledIconesProfil, StyledPublicationsProfil,
     StyledFooterContenairPost,StyledBodyContenairPost,StyledDivImagePost,StyledImagePost,StyledContenuPost,
     StyledDescriptionPost,StyledPublishedDate,StyledContenairPosts,StyledCardPost,StyledLike, StyledHeaderContenairPost,
-    StyledAuthorPost,StyledTitlePost,StyledIconesPost, StyledInformationsProfil } from "./profilStyle";
+    StyledAuthorPost,StyledTitlePost,StyledIconesPost, StyledInformationsProfil, StyledImageProfilPost } from "./profilStyle";
 import React, { useContext, useState, useEffect } from 'react';
 import profile from '../../assets/defaultImageProfile.png'
 import { Loader } from "../../utils/style/loader";
@@ -118,10 +118,11 @@ export default function Profil() {
                         Mes publications
                     </h2>
                     <StyledContenairPosts>
-                        {data && data.map((item) => (
+                    {/* {data && data.map((item) => ( */}
+                        {data && [...data].reverse().map((item) => ( 
                             <StyledCardPost key={item._id}>
                                 <StyledHeaderContenairPost>
-                                    <StyledAuthorPost key={"AuthorPost" +user._id}>Auteur : {user.firstname} {user.lastname} </StyledAuthorPost>
+                                    <StyledAuthorPost key={"AuthorPost" +user._id}><StyledImageProfilPost src={user.imageUrl} alt="PhotoUtilisateur"/> {user.firstname} {user.lastname} </StyledAuthorPost>
                                     <StyledTitlePost key={"title" +item.title+item._id}>{item.title}</StyledTitlePost>
                                     <StyledIconesPost>
                                         <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />

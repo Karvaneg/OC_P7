@@ -102,18 +102,18 @@ function ModifyProfil({ userProfil, setUserProfil }) {
                     <Modal isShowing={isModifyProfil} hide={toggleModifyProfil} title="Modifier le profil">
                         <form onSubmit={onModify} name="profilInfo">
                             <StyledFormGroup>
-                                <input type="text" name="firstName" onChange={(e) => setFirstnameHandleProfil(e.target.value)} value={firstnameHandleProfil} placeholder="Prénom" required/>
+                                <input aria-label="Prénom" type="text" name="firstName" onChange={(e) => setFirstnameHandleProfil(e.target.value)} value={firstnameHandleProfil} placeholder="Prénom" required/>
                             </StyledFormGroup>
                             <StyledFormGroup>
-                                <input type="text" name="lastname" onChange={(e) => setLastnameHandleProfil(e.target.value)} value={lastnameHandleProfil} placeholder="Nom" required></input>
+                                <input aria-label="Nom" type="text" name="lastname" onChange={(e) => setLastnameHandleProfil(e.target.value)} value={lastnameHandleProfil} placeholder="Nom" required></input>
                             </StyledFormGroup>
                             <StyledFormGroup>
-                                <input type="text" name="email" onChange={(e) => setEmailHandleProfil(e.target.value)} value={emailHandleProfil} placeholder="Email" required></input>
+                                <input aria-label="Email" type="text" name="email" onChange={(e) => setEmailHandleProfil(e.target.value)} value={emailHandleProfil} placeholder="Email" required></input>
                             </StyledFormGroup>
                             <StyledFormGroup>
                                 <img src={userProfil.imageUrl} alt="imageProfil" width= "60px" />
                                 <StyledTextSpecifiedFormatFile>Choisissez une autre image à télécharger au format autorisé (PNG, JPG ou JPEG)</StyledTextSpecifiedFormatFile>
-                                <input id="fileImageProfil" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandleProfil(e.target.files[0], e.target.files[0].name)} />
+                                <input aria-label="Image du profil" id="fileImageProfil" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandleProfil(e.target.files[0], e.target.files[0].name)} />
                             </StyledFormGroup>
                             <StyledFormGroup>
                                 <input type="submit" value="Valider" />

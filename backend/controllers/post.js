@@ -116,7 +116,7 @@ exports.manageLike = (req, res, next) => {
     let postId = req.params.id;
     // On récupère le like de la requête du body
     let like = req.body.like;
-   
+    
     if (like === 1) {
       // Si l'utilisateur clique sur le pouce Like pour la première fois
       // => on met à jour le post ayant cet Id
@@ -131,6 +131,7 @@ exports.manageLike = (req, res, next) => {
           $inc: { likes: +1 },
         }
       )
+
         .then(() => res.status(200).json({ userId, postId, like }))
         .catch((error) => res.status(400).json({ error }));
     }

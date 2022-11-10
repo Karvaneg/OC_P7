@@ -115,6 +115,20 @@ box-shadow: 1px 1px 15px ${colors.tertiary};
 }
   
 `
+
+// Auteur du Post
+export const StyledAuthorPost = styled.div`
+display: flex;
+align-items: center;
+`
+
+export const StyledImageProfilPost = styled.img`
+        width: 30px;
+        border-radius: 50px;
+        margin-right: 5px;
+`
+
+
 // Bloc Icônes "Modifier/Supprimer" d'un Post
 export const StyledIconesProfil = styled.div`
         display: flex;
@@ -153,10 +167,7 @@ export const StyledHeaderContenairPost = styled.div`
         font-size: 12px;
 `
 
-// Auteur du Post
-export const StyledAuthorPost = styled.div`
 
-`
 // Titre du Post
 export const StyledTitlePost = styled.div`
         font-size: 18px;
@@ -197,7 +208,7 @@ export const StyledContenuPost = styled.div`
 `
 // Bloc Description du Post
 export const StyledDescriptionPost = styled.div`
-        text-align : justify;
+       // text-align : justify;
         padding: 10px;
         border-left: solid 1px #DADBDE;
         min-height: 90px;

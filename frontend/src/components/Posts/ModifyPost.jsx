@@ -48,33 +48,41 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                     
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement le titre et la description
                     if (res.postObject.image === imageHandlePost) {
-                        const postModify = {
-                            ...postSelect,
-                            _id: idPost,
-                            title: titleHandlePost,
-                            description: descriptionHandlePost,
-                           // imageUrl: imageHandlePost
-                        };
-                        // on filtre tous les posts sauf le post qui est en train d'être modifié...
-                        const recherche = data.filter((item) => item._id !== idPost);
-                        // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
-                       // console.log(postModify);
-                        setData([...recherche, postModify]);
+                    //     const postModify = {
+                    //         ...postSelect,
+                    //         _id: idPost,
+                    //         title: titleHandlePost,
+                    //         description: descriptionHandlePost,
+                    //        // imageUrl: imageHandlePost
+                    //     };
+                    //     // on filtre tous les posts sauf le post qui est en train d'être modifié...
+                    //     const recherche = data.filter((item) => item._id !== idPost);
+                    //     // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
+                    //    // console.log(postModify);
+                    //     setData([...recherche, postModify]);
+
+                        const newPostList = data.map(post => post._id !== idPost ? post: {...post, _id: idPost, title: titleHandlePost, description: descriptionHandlePost});
+                        console.log(newPostList);
+                        setData(newPostList);
         
                     } else {
                         // sinon, on met aussi à jour l'image
-                        const postModify = {
-                            ...postSelect,
-                            _id: idPost,
-                            title: titleHandlePost,
-                            description: descriptionHandlePost,
-                            imageUrl: res.postObject.imageUrl
-                        };
-                        // on filtre tous les posts sauf le post qui est en train d'être modifié...
-                        const recherche = data.filter((item) => item._id !== idPost);
-                        // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
-                      //  console.log(postModify);
-                        setData([...recherche, postModify]);
+                    //     const postModify = {
+                    //         ...postSelect,
+                    //         _id: idPost,
+                    //         title: titleHandlePost,
+                    //         description: descriptionHandlePost,
+                    //         imageUrl: res.postObject.imageUrl
+                    //     };
+                    //     // on filtre tous les posts sauf le post qui est en train d'être modifié...
+                    //     const recherche = data.filter((item) => item._id !== idPost);
+                    //     // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
+                    //   //  console.log(postModify);
+                    //     setData([...recherche, postModify]);
+
+                        const newPostList = data.map(post => post._id !== idPost ? post: {...post, _id: idPost, title: titleHandlePost, description: descriptionHandlePost, imageUrl: res.postObject.imageUrl});
+                        console.log(newPostList);
+                        setData(newPostList);
                     
                     }
                     alert("Le post a bien été modifié !")
@@ -110,15 +118,15 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                     <Modal isShowing={isModifyPost} hide={toggleModifyPost} title="Modifier le post">
                         <form onSubmit={onModify} name="postInfo">
                             <StyledFormGroup>
-                                <input type="text" name="title" onChange={(e) => setTitleHandlePost(e.target.value)} value={titleHandlePost} placeholder="Titre" required/>
+                                <input aria-label="Titre du post" type="text" name="title" onChange={(e) => setTitleHandlePost(e.target.value)} value={titleHandlePost} placeholder="Titre" required/>
                             </StyledFormGroup>
                             <StyledFormGroup>
-                                <textarea name="description" onChange={(e) => setDescriptionHandlePost(e.target.value)} value={descriptionHandlePost} placeholder="Description" required></textarea>
+                                <textarea aria-label="Description du post" name="description" onChange={(e) => setDescriptionHandlePost(e.target.value)} value={descriptionHandlePost} placeholder="Description" required></textarea>
                             </StyledFormGroup>
                             <StyledFormGroup>
                                 <img src={postSelect.imageUrl} alt="imagePost" width= "60px" />
                                 <StyledTextSpecifiedFormatFile>Choisissez une autre image à télécharger au format autorisé (PNG, JPG ou JPEG)</StyledTextSpecifiedFormatFile>
-                                <input id="fileImagePost" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandlePost(e.target.files[0], e.target.files[0].name)} />
+                                <input aria-label="Image du post" id="fileImagePost" type="file" name="imageUrl" accept=".jpg, .jpeg, .png" onChange={(e) => setImageHandlePost(e.target.files[0], e.target.files[0].name)} />
                             </StyledFormGroup>
                             <StyledFormGroup>
                                 <input type="submit" value="Valider" />

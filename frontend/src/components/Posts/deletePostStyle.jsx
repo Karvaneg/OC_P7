@@ -11,6 +11,7 @@ export const StyledDivIconeDeletePost = styled.div`
         justify-content: center;
         border: solid 1px #ECECEE;
         border-radius: 50px;
+        cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;

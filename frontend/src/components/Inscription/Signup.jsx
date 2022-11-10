@@ -185,12 +185,12 @@ function Signup() {
                 <Modal isShowing={isSignup} hide={toggleRegistrationForm} title="Pas encore inscrit ? N'attendez plus, rejoignez vos collègues !">
                     <form onSubmit={onSignup}>         
                         <StyledFormGroup>
-                            <input type="email" onChange={emailHandleChangeSignup} name="email" placeholder={emailSignup} title="Votre email" required />
+                            <input aria-label="Email" type="email" onChange={emailHandleChangeSignup} name="email" placeholder={emailSignup} /*title="Votre email"*/ required />
                         </StyledFormGroup>
                         
                             <StyledFormGroup>
                                 <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
-                                <input type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} title="Votre mot de passe" autoComplete="true" required />
+                                <input aria-label="Mot de passe" type={typePassword} onChange={passwordHandleChangeSignup} name="password" placeholder={passwordSignup} /*title="Votre mot de passe"*/ autoComplete="true" required />
                                 <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
                             </StyledFormGroup>
                         
@@ -217,10 +217,10 @@ function Signup() {
                         )}
 
                         <StyledFormGroup>
-                            <input type="text" onChange={firstnameHandleChange} name="firstname" placeholder={firstname} title="Votre prénom"  required />
+                            <input aria-label="Prénom" type="text" onChange={firstnameHandleChange} name="firstname" placeholder={firstname} /*title="Votre prénom"*/  required />
                         </StyledFormGroup>
                         <StyledFormGroup>
-                            <input type="text" onChange={lastnameHandleChange} name="lastname" placeholder={lastname} title="Votre nom"  required />
+                            <input aria-label="Nom" type="text" onChange={lastnameHandleChange} name="lastname" placeholder={lastname} /*title="Votre nom"*/  required />
                         </StyledFormGroup>
                         <StyledFormGroup>
                             <input type="submit" value="Inscription" />

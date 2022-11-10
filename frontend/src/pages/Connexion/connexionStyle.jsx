@@ -69,7 +69,7 @@ box-shadow: 1px 1px 15px ${colors.tertiary};
     align-items: center;
     font-weight: bold;
     font-size: 15px;
-    color: ${colors.primary};
+    color: ${colors.tertiary};
     box-shadow: 0px 6px 10px ${colors.tertiary};
     transition: transform 110ms ease-in-out;
   &:hover{

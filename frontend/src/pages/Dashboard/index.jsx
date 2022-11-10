@@ -1,8 +1,8 @@
 import { DocumentTitle, useDocumentTitle } from "../../utils/hooks/setDocumentTitle" 
 import { StyledHeaderContenairPost, StyledContenairPosts, StyledCardPost, StyledAuthorPost, StyledBodyContenairPost, 
-  StyledFooterContenairPost, StyledDivImagePost, StyledPublishedDate, StyledLike, 
+  StyledFooterContenairPost, StyledDivImagePost, StyledPublishedDate, 
   StyledImagePost, StyledContenuPost, StyledDescriptionPost, StyledTitlePost, StyledIconesPost, 
-  StyledHeaderDashBoard, StyledModal, StyledImageProfil } from './dashboardStyle'
+  StyledHeaderDashBoard, StyledModal, StyledImageProfil, StyledDivNoAuthor } from './dashboardStyle'
 import React, { useState, useEffect, useContext } from "react"
 import Moment from 'react-moment';
 import { Loader } from "../../utils/style/loader";
@@ -73,9 +73,10 @@ function Dashboard() {
         });
     }, [token]);
 
+
   // [3] affichage (render et rerender)
   return (
-    <div>
+    <>
       <h1>Bienvenue {user.firstname} {user.lastname} !</h1>
 
       <StyledHeaderDashBoard>
@@ -90,10 +91,11 @@ function Dashboard() {
       )}
 
       <StyledContenairPosts>
-        {data && [...data].reverse().map((item) => {return( 
+        {data && [...data].reverse().map((item) => ( 
             <StyledCardPost key={item._id}>
 
                 <StyledHeaderContenairPost>
+                  <StyledDivNoAuthor>
                     {userData && userData.map((author) => {
                         if(author._id === item.userId){
                             return <StyledAuthorPost key={author._id}><StyledImageProfil src={author.imageUrl} alt="PhotoUtilisateur"/> {author.firstname} {author.lastname} </StyledAuthorPost>
@@ -101,6 +103,7 @@ function Dashboard() {
                             return null
                         }
                     })}
+                  </StyledDivNoAuthor>
            {/* //////// Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
                     <StyledTitlePost>{item.title}</StyledTitlePost>
                     <StyledIconesPost>
@@ -123,17 +126,15 @@ function Dashboard() {
                       Publié le : <Moment format="DD/MM/YYYY">{item.publishedDate}</Moment>
                     </StyledPublishedDate>
                     <div>
-                        <StyledLike>
-                            <AddLike publishedDate={item.publishedDate} isLiked={isLiked} setIsLiket={setIsLiked} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
-                        </StyledLike>
+                        <AddLike publishedDate={item.publishedDate} isLiked={isLiked} setIsLiket={setIsLiked} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
                     </div>
                 </StyledFooterContenairPost>
 
             </StyledCardPost>
-          )})}
+          ))}
      </StyledContenairPosts> 
     
-    </div>
+    </>
   ); 
  }
  export default Dashboard;

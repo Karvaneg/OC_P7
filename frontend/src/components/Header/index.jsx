@@ -29,7 +29,7 @@ function Header() {
                         <StyledLink to="/profil" >
                             Mon Profil
                         </StyledLink>
-                        <StyledLink onClick={deleteToken}>
+                        <StyledLink onClick={deleteToken} to="/">
                             Déconnexion
                         </StyledLink>
                     </div>

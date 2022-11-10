@@ -65,6 +65,10 @@ export const StyledAuthorPost = styled.div`
 display: flex;
 align-items: center;
 `
+export const StyledDivNoAuthor = styled.div`
+        width: 25%;
+
+`
 
 export const StyledImageProfil = styled.img`
         width: 30px;
@@ -75,6 +79,7 @@ export const StyledImageProfil = styled.img`
 // Titre du Post
 export const StyledTitlePost = styled.div`
         font-size: 18px;
+        text-align: center;
 `
 
 // Bloc Icônes "Modifier/Supprimer" d'un Post
@@ -108,7 +113,7 @@ export const StyledContenuPost = styled.div`
 `
 // Bloc Description du Post
 export const StyledDescriptionPost = styled.div`
-        text-align : justify;
+      //  text-align : justify;
         padding: 20px;
         border-left: solid 1px #DADBDE;
         min-height: 90px;
@@ -127,18 +132,4 @@ export const StyledFooterContenairPost = styled.div`
 // Bloc date de publication du Post
 export const StyledPublishedDate = styled.div`
 
-`
-// Bloc Like du Post
-export const StyledLike = styled.div`
-        display: flex;
-        align-items: center;
-`
-// Image du Like du Post
-export const StyledImageLike = styled.img`
-        width: 20px;
-        margin-left: 10px;
-        transition: transform 110ms ease-in-out;
-            &:hover{
-                transform: translate(0px,1px); 
-            }
 `

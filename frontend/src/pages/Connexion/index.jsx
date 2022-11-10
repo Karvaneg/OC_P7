@@ -113,11 +113,11 @@ function Connexion() {
           <StyledProfileImageDefaut src={profile} alt="profileImageDefaut" />
           <form onSubmit={handleSubmit}>
             <div>
-              <input type="email"  onChange={emailHandleChange} name="email" placeholder={email} title="Votre email" required />
+              <input aria-label="Email" type="email"  onChange={emailHandleChange} name="email" placeholder={email} /*title="Votre email"*/ required />
             </div>
             <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
             <div>
-              <input type={typePassword} onChange={passwordHandleChange} name="password" placeholder={password} title="Votre mot de passe" autoComplete="true"  required />
+              <input aria-label="Mot de passe" type={typePassword} onChange={passwordHandleChange} name="password" placeholder={password} /*title="Votre mot de passe"*/ autoComplete="true"  required />
               <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
             </div>
             { isConnect ? (

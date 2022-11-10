@@ -12,6 +12,7 @@ export const StyledDivIconeDeleteProfil = styled.div`
         border: solid 1px #ECECEE;
         background-color: #ECECEE;
         border-radius: 50px;
+        cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;
