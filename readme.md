@@ -15,11 +15,17 @@ Le projet consiste à construire un réseau social interne pour les employés de
 ### Aspect Graphique
 
 ● Police d'écriture : tous les textes du site doivent utiliser la police Lato.
+
 ● Couleurs : 
+
     ● Primaire : #FD2D01
+
     ● Secondaire : #FFD7D7
+
     ● Tertiaire : #4E5166
+
 ● Responsive desktop, tablette, mobile
+
 ● Ne pas se lancer dans quelque chose de trop compliqué pour cette première version.
 
 ### Côté Technique
@@ -30,15 +36,15 @@ Le projet consiste à construire un réseau social interne pour les employés de
 
 ● Utilisation obligatoire d'un framework frontend Javascript.
 
-● Une page de connexion : permettant à un utilisateur de se connecter ou de créer un compte s'il n'en possède pas déjà un. Un utilisateur doit avoir la possibilité de se déconnecter, la session utilisateur doit pouvoir persister pendant la connexion et les données de connexion doivent être sécurisées.
+● `Une page de connexion` : permettant à un utilisateur de se connecter ou de créer un compte s'il n'en possède pas déjà un. Un utilisateur doit avoir la possibilité de se déconnecter, la session utilisateur doit pouvoir persister pendant la connexion et les données de connexion doivent être sécurisées.
 
-● Une page d'accueil : liste les posts créés par les différents utilisateurs, de manière antéchronologique.
+● `Une page d'accueil` : liste les posts créés par les différents utilisateurs, de manière antéchronologique.
 
-● Création d'un post : un utilisateur doit pouvoir créer un post. Un post doit pouvoir contenir du texte et une image. Enfin, un utilisateur doit pouvoir modifier ou supprimer ses posts.
+● `Création d'un post` : un utilisateur doit pouvoir créer un post. Un post doit pouvoir contenir du texte et une image. Enfin, un utilisateur doit pouvoir modifier ou supprimer ses posts.
 
-● Système de like : un utilisateur doit pouvoir liker un post, une seule fois pour chaque post.
+● `Système de like` : un utilisateur doit pouvoir liker un post, une seule fois pour chaque post.
 
-● Rôle administrateur : dans le but de pouvoir faire de la modération si nécessaire, il faudra créer un utilisateur “administrateur” ; celui-ci aura les droits de modification / suppression sur tous les posts du réseau social.
+● `Rôle administrateur` : dans le but de pouvoir faire de la modération si nécessaire, il faudra créer un utilisateur administrateur” ; celui-ci aura les droits de modification / suppression sur tous les posts du réseau social.
 
 ## Mise en route de l'application
 
