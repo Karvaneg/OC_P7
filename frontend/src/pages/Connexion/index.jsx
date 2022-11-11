@@ -10,6 +10,7 @@ import React from "react"
 import Signup from '../../components/Inscription/Signup'
 
 function Connexion() {
+
   useDocumentTitle(`${DocumentTitle.connexion}`);
   
   // [1] state (état, données)
@@ -47,7 +48,7 @@ function Connexion() {
   // Fonction connexion
   const handleSubmit = (event) => {
       event.preventDefault();
-      // On récupère l'email et le mot de passe renseignés par l'utilisateur
+      // On récupère l'email et le mot de passe renseignés par l'utilisateur, dans les input
       const userEmail = email;
       const userPassword = password;
       
@@ -65,30 +66,31 @@ function Connexion() {
         },
         body: JSON.stringify(dataUser)
       };
+
       // Call API pour la connexion
       fetch("http://localhost:8000/api/auth/login", dataMethod)
       .then((response) => response.json())
       .then((data) => {
+        // si le backend nous renvoie un token, on enregistre dans le localstorage le token, le userId de l'utilisateur connecté et...
+        //... la date de connexion, et on redirige vers le dasboard
         if (data.token) {
           setIsConnect(false);
           localStorage.setItem("token", data.token);
           localStorage.setItem("userIdConnected", data.userId);
           localStorage.setItem("dateConnection", Date.now());
           document.location.href = `/dashboard`;
+        // sinon, on inidque un message d'erreur à l'utilisateur
         } else {
           setIsConnect(true);
-          // Votre adresse email ou votre mot de passe est incorrect. Veuillez vérifier les informations saisies.
         }
-        })
-
+      })
       .catch((err) => {
           console.log("Erreur Fetch", err);
           alert ("Un problème a été rencontré lors de l'envoi du formulaire.");
       });
     }      
 
-    // de l'icône oeil
-    
+    // Comportement de l'icône oeil
     const showHidePassword = () => {
       if(e === true) {
         setTypePassword("text");
@@ -113,11 +115,11 @@ function Connexion() {
           <StyledProfileImageDefaut src={profile} alt="profileImageDefaut" />
           <form onSubmit={handleSubmit}>
             <div>
-              <input aria-label="Email" type="email"  onChange={emailHandleChange} name="email" placeholder={email} /*title="Votre email"*/ required />
+              <input aria-label="Email" type="email"  onChange={emailHandleChange} name="email" placeholder={email} required />
             </div>
             <StyledInfosPassword>8 caractères minimum - minuscules & majuscules - 2 chiffres minimum</StyledInfosPassword>
             <div>
-              <input aria-label="Mot de passe" type={typePassword} onChange={passwordHandleChange} name="password" placeholder={password} /*title="Votre mot de passe"*/ autoComplete="true"  required />
+              <input aria-label="Mot de passe" type={typePassword} onChange={passwordHandleChange} name="password" placeholder={password} autoComplete="true"  required />
               <StyledEyePassword src={colorEye} alt="eye" onClick={showHidePassword} title={titleColorEye} />
             </div>
             { isConnect ? (

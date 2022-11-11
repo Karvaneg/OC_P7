@@ -3,11 +3,10 @@ import colors from '../../utils/style/colors'
 
 // Mise en forme du bouton Ajouter un post du Tableau de bord et de la Modal pour ajouter un post
 export const StyledModal = styled.div`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        & button.modal-toggle
-         {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        & button.modal-toggle {
           background-color: ${colors.secondary};
           cursor: pointer;
           padding: 10px 15px;
@@ -21,24 +20,22 @@ export const StyledModal = styled.div`
 // Mise en forme du formulaire de la Modal "Ajouter un post"     
 export const StyledFormGroup = styled.div`
         margin-top: 10px;
-        & input[type="text"],
-        input[type="password"],
-        input[type="email"], textarea {
-          box-sizing: border-box;
-          width: 100%;
-          padding: 0.5rem 0.7rem;
-        }
-        & textarea {
-          max-width: 100%;
-          height: 132px;
-        }
-        & input[type="submit"] {
-            background-color: ${colors.secondary};
-          cursor: pointer;
-          padding: 10px 15px;
-          text-transform: uppercase;
-          border: none;
-        }
+            & input[type="text"], input[type="password"], input[type="email"], textarea {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 0.5rem 0.7rem;
+            }
+            & textarea {
+                max-width: 100%;
+                height: 132px;
+            }
+            & input[type="submit"] {
+                background-color: ${colors.secondary};
+                cursor: pointer;
+                padding: 10px 15px;
+                text-transform: uppercase;
+                border: none;
+            }
 `
 export const StyledTextSpecifiedFormatFile = styled.div`
         font-size: 12px;
@@ -54,12 +51,12 @@ export const StyledDivIconeModifyPost = styled.div`
         align-items: center;
         justify-content: center;
         border-radius: 50px;
-        border: solid 1px #ECECEE;
+        border: solid 1px ${colors.yellowishGray};
         cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;
-                border: solid 1px #DADBDE;
+                border: solid 1px ${colors.borderColor};
                 width:35px;
                 height:35px;
             }

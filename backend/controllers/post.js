@@ -110,13 +110,14 @@ exports.getAllPosts = (req, res, next) => {
 
 // Controleur pour gérer les likes et dislikes
 exports.manageLike = (req, res, next) => {
-    // On récupère l'userId
+    // On récupère l'userId de la requête du body
     let userId = req.body.userId;
-    // On récupère le postId
+    // On récupère le postId de la requête du body
     let postId = req.params.id;
     // On récupère le like de la requête du body
     let like = req.body.like;
     
+    // Ajout d'un like
     if (like === 1) {
       // Si l'utilisateur clique sur le pouce Like pour la première fois
       // => on met à jour le post ayant cet Id
@@ -131,36 +132,16 @@ exports.manageLike = (req, res, next) => {
           $inc: { likes: +1 },
         }
       )
-
         .then(() => res.status(200).json({ userId, postId, like }))
         .catch((error) => res.status(400).json({ error }));
     }
    
-    // if (like === -1) {
-    //   // Si l'utilisateur clique sur le pouce disLike pour la première fois
-    //   // => on met à jour le post ayant cet Id
-    //   Post.updateOne(
-    //     { _id: postId },
-    //     {
-    //       // [ mongoDB push operator ]
-    //       // On ajoute (on pousse) l'userId au tableau [array] des usersDisliked
-    //       $push: { usersDisliked: userId },
-    //       // [ mongoDB increment operator ]
-    //       // On incrémente dislikes
-    //       $inc: { dislikes: +1 },
-    //     }
-    //   )
-    //     .then(() => res.status(200).json({ message: "Dislike ajouté par l'utilisateur !" }))
-    //     .catch((error) => res.status(400).json({ error }));
-    // }
-   
-    // Suppression like
+    // Suppression d'un like
     if (like === 0) {
       Post.findOne({
         _id: postId,
       })
         .then((post) => {
-          // Suppression like
           // Si l'utilisateur a déjà cliqué sur le pouce like donc si l'userId est inclus dans le tableau des usersLiked
           if (post.usersLiked.includes(userId)) {
             Post.updateOne(
@@ -172,18 +153,6 @@ exports.manageLike = (req, res, next) => {
               .then(() => res.status(200).json({ userId, postId, like }))
               .catch((error) => res.status(400).json({ error }));
           }
-          // // Suppresson dislike
-          // // Si l'utilisateur a déjà cliqué sur le pouce disLike donc si l'userId est inclus dans le tableau des usersDisliked
-          // if (post.usersDisliked.includes(userId)) {
-          //   Post.updateOne(
-          //     { _id: postId },
-          //     // [ mongoDB pull operator ]
-          //     // On supprime l'userId du tableau des usersDisliked et on décrémente disLikes
-          //     { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 } }
-          //   )
-          //     .then(() => res.status(200).json({ message: "Dislike retiré par l'utilisateur !" }))
-          //     .catch((error) => res.status(400).json({ error }));
-          // }
         })
         .catch((error) => res.status(400).json({ error }));
     }

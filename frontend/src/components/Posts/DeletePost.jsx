@@ -6,10 +6,15 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 function DeletePost({ data, setData, idPost, idUserPost  }) {
+
+  // [1] state (état, données)
+    // On récupère les données de l'utilisateur connecté, grâce au Context
     const {user, setUser} = useContext(UserContext);
+    // On récupère le token dans le localstorage
     const isToken = localStorage.getItem("token");
     const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
 
+    // [2] comportements
     function onDelete() {
         // On demande la confirmation de la suppression du profil
         confirmAlert({
@@ -32,7 +37,6 @@ function DeletePost({ data, setData, idPost, idUserPost  }) {
                         // On met à jour le DOM en ne gardant que les posts dont l'id est différent de celui sélectionné pour la suppression
                         const recherche = data.filter((item) => item._id !== idPost);
                         setData(recherche);
-                        alert ("Le post a bien été supprimé.");
                       })
                       .catch((err) => {
                         console.log("Erreur Fetch", err);
@@ -51,6 +55,7 @@ function DeletePost({ data, setData, idPost, idUserPost  }) {
           ]
         });
     }
+    
     // on regarde si l'utilisateur connecté est l'auteur du post ou s'il est l'admin...
     useEffect(() => {
       // ...pour afficher les icônes "modifier" et "supprimer" au niveau des posts
@@ -62,6 +67,7 @@ function DeletePost({ data, setData, idPost, idUserPost  }) {
       };
     }, [idUserPost, user._id, user.isAdmin]);
 
+    // [3] affichage (render et rerender)
     return (
       <div>
         { isAuthorOrAdmin && (

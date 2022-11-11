@@ -2,15 +2,19 @@ import { useState } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { StyledModalOverlay, StyledModalWrapper, StyledModalHeader, StyledModal, StyledModalCloseButton, StyledModalBody } from "./setModalStyle";
+import { StyledModalOverlay, StyledModalWrapper, StyledModalHeader, StyledModal, StyledModalCloseButton, 
+  StyledModalBody } from "./setModalStyle";
 
 const useModal = () => {
+  // [1] state (état, données)
   const [isShowing, setIsShowing] = useState(false);
 
+  // [2] comportements
   function toggle() {
     setIsShowing(!isShowing);
   }
 
+  // [3] affichage (render et rerender)
   return {
     isShowing,
     toggle
@@ -46,4 +50,4 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired
 };
 
-export {Modal};
+export { Modal };

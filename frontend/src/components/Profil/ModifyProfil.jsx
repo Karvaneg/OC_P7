@@ -6,32 +6,30 @@ import { StyledIconeModifyProfil, StyledModal, StyledFormGroup, StyledTextSpecif
              from './modifyProfilStyle';
 
 function ModifyProfil({ userProfil, setUserProfil }) {
+
+    // [1] state (état, données)
     const { isShowing: isModifyProfil, toggle: toggleModifyProfil} = useModal();
+    // On récupère les données de l'utilisateur connecté, grâce au Context
     const {user, setUser} = useContext(UserContext);
+    // On récupère le token dans le localstorage
     const isToken = localStorage.getItem("token");
-    // const userImageProfil = userProfil.imageUrl;
-    // const userFirstnameProfil = userProfil.firstname;
-    // const userLastnameProfil = userProfil.lastname;
-    // const userEmailProfil = userProfil.email;
- //   console.log("Image :" + userImageProfil + " Prénom :" + userFirstnameProfil + " Nom :" + userLastnameProfil + " Email :" + userEmailProfil);
+    // On récupère les données du profil depuis index.jsx du dossier Profil pour les afficher dans les input de la Modal
     const [imageHandleProfil, setImageHandleProfil] = useState(userProfil.imageUrl);
     const [firstnameHandleProfil, setFirstnameHandleProfil] = useState(userProfil.firstname);
     const [lastnameHandleProfil, setLastnameHandleProfil] = useState(userProfil.lastname);
     const [emailHandleProfil, setEmailHandleProfil] = useState(userProfil.email);
-    console.log("Image :" + imageHandleProfil + " Prénom :" + firstnameHandleProfil + " Nom :" + lastnameHandleProfil + " Email :" + emailHandleProfil);
     
+    // [2] comportements
     function onModify(event) {
         event.preventDefault();
         // On vérifie que l'utilisateur connecté est l'auteur du post ou que l'utilisateur connecté est l'admin
         if(userProfil._id === user._id || user.isAdmin === true){
+            // On met les nouvelles données dans formData
             const formData = new FormData();
             formData.append("firstname", firstnameHandleProfil);
             formData.append("lastname", lastnameHandleProfil);
             formData.append("image", imageHandleProfil);
             formData.append("email", emailHandleProfil);
-            formData.forEach((value, key) => {
-                 console.log(key + " " + value);
-             })
 
             // On indique la méthode d'envoi des données
             // Options de la requête fetch => PUT et Autorisation
@@ -49,13 +47,6 @@ function ModifyProfil({ userProfil, setUserProfil }) {
                     return response.json();
                 })
                 .then((res) => {
-                    console.log(res.profilObject);
-                   // console.log(res.profilObject.image);
-                    console.log(imageHandleProfil);
-                    console.log(user.imageUrl);
-                    console.log(userProfil.imageUrl);
-                    console.log(res.profilObject.image);
-                    console.log(res.profilObject.imageUrl);
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement prénom, nom et email
                     if (imageHandleProfil === res.profilObject.image) {
                         const profilModify = {
@@ -66,7 +57,6 @@ function ModifyProfil({ userProfil, setUserProfil }) {
                             isAdmin: user.isAdmin,
                             imageUrl: imageHandleProfil
                         };
-                        console.log(profilModify);
                         setUser(profilModify);
                     } else {
                         // sinon, on met aussi à jour l'image
@@ -78,10 +68,9 @@ function ModifyProfil({ userProfil, setUserProfil }) {
                             _id: user._id,
                             isAdmin: user.isAdmin
                         };
-                        console.log(profilModify);
                         setUser(profilModify);
                     }
-                    alert("Le profil a bien été modifié !");
+                    // On ferme automatiquement la modal
                     toggleModifyProfil();
                 })
                 .catch((err) => {
@@ -94,7 +83,7 @@ function ModifyProfil({ userProfil, setUserProfil }) {
         }
     }
 
-
+    // [3] affichage (render et rerender)
    return (
     <StyledModal>
             <StyledDivIconeModifyProfil>

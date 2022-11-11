@@ -1,4 +1,5 @@
 import styled  from 'styled-components'
+import colors from '../../utils/style/colors'
 
 // Bloc "Supprimer" d'un Post
 export const StyledDivIconeDeletePost = styled.div`
@@ -9,13 +10,13 @@ export const StyledDivIconeDeletePost = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        border: solid 1px #ECECEE;
+        border: solid 1px ${colors.yellowishGray};
         border-radius: 50px;
         cursor: pointer;
             &:hover{
                 background-color: white;
                 border-radius: 50px;
-                border: solid 1px #DADBDE;
+                border: solid 1px ${colors.borderColor};
                 width:35px;
                 height:35px;
             }

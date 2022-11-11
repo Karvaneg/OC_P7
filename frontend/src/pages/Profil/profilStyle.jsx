@@ -1,139 +1,130 @@
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 
+export const StyledProfil = styled.div`
+    margin-left: 20px;
+    margin-right: 20px;
+
+    @media screen and (max-width: 480px) {
+        margin-left: 0px;
+        margin-right: 0px;   
+    }
+`
+
+//************************************************************//
+//****** Mise en forme de la partie "Mes informations" ******//
+//**********************************************************//
+
 export const StyledContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    border-top: 1px solid #ECECEE;
+    margin: 20px;
+    border-top: 1px solid ${colors.yellowishGray};
     padding-top: 30px;
-    
-`
+    justify-content: space-around;
 
-export const StyledPublicationsProfil = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    border-left: 1px solid #ECECEE;
-
+    @media screen and (max-width: 980px) {
+        flex-direction: column;
+        align-items: center;       
+    }
 `
 
 export const StyledInformationsProfil = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%
 
+    @media screen and (max-width: 980px) {
+        margin-bottom: 40px;   
+    }
+`
+
+export const ConnectionForm = styled.div`
+    background: linear-gradient(157deg, rgba(255,215,215,1) 30%, rgba(253,45,1,1) 84%, rgba(78,81,102,1) 100%);
+    width: 300px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 15px ${colors.tertiary};
+
+    @media screen and (max-width: 480px) {
+        width: 90%;  
+    }
 `
 
 export const StyledDivImageProfil = styled.div`
     align-self: center;
     margin-bottom: 20px;
-
 `
 
 export const StyledImageProfil = styled.img`
-  height: 130px;
-  width: 130px;
-  border-radius: 50%;
-  //border: 1px solid ${colors.tertiary};
-  box-shadow: 1px 1px 15px #ECECEE;
-  
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 15px ${colors.yellowishGray};
 `
 
-
+// Bloc Icônes "Modifier/Supprimer" du profil
+export const StyledIconesProfil = styled.div`
+    display: flex;
+`
 
 export const StyledProfilInformation = styled.div`
-  color : ${colors.tertiary};
-  
+    color : ${colors.tertiary};
 `
 export const StyledFirstnameLastname = styled.div`
-margin-top: 20px;
-//border: 1px solid ${colors.tertiary};
-padding: 10px;
-background-color: #ECECEE;
-border-radius: 5px;
-  
+    margin-top: 20px;
+    padding: 10px;
+    background-color: ${colors.yellowishGray};
+    border-radius: 5px;
 `
 
 export const StyledEmail = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
-  //border: 1px solid ${colors.tertiary};
-  padding: 10px;
-  background-color: #ECECEE;
-  border-radius: 5px;
-  
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: ${colors.yellowishGray};
+    border-radius: 5px;
 `
 
+//************************************************************//
+//****** Mise en forme de la partie "Mes publications" ******//
+//**********************************************************//
 
-export const ConnectionForm = styled.div`
-background: linear-gradient(157deg, rgba(255,215,215,1) 30%, rgba(253,45,1,1) 84%, rgba(78,81,102,1) 100%);
-max-width: 350px;
-width: 80%;
-margin-top: 20px;
-display: flex;
-flex-direction: column;
-justify-content: space-evenly;
-padding: 20px;
-//margin-top: 20px;
-border-radius: 5px;
-box-shadow: 1px 1px 15px ${colors.tertiary};
-& form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  & input {
-    border-radius: 25px;
-    border: none;
-    height: 20px;
-    width: 200px;
-    margin: 10px;
-    padding: 10px;
+export const StyledPublicationsProfil = styled.div`
     display: flex;
-    justify-content: center;
     flex-direction: column;
-  }
-  & input[type=submit]{
-    cursor: pointer;
-    width: 180px;
-    height: 40px;
     align-items: center;
-    font-weight: bold;
-    font-size: 15px;
-    color: ${colors.primary};
-    box-shadow: 0px 6px 10px ${colors.tertiary};
-    transition: transform 110ms ease-in-out;
-  &:hover{
-    box-shadow: 0px 3px 10px ${colors.tertiary};
-    transform: translate(0px,1px); 
-  }
-}
-  
+    width: 60%;
+
+    @media screen and (max-width: 980px) {
+        width: 100%;       
+    }
 `
 
 // Auteur du Post
 export const StyledAuthorPost = styled.div`
-display: flex;
-align-items: center;
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: 480px) {
+        justify-content: center; 
+    }
 `
 
 export const StyledImageProfilPost = styled.img`
-        width: 30px;
-        border-radius: 50px;
-        margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    margin-right: 5px;
 `
 
 
-// Bloc Icônes "Modifier/Supprimer" d'un Post
-export const StyledIconesProfil = styled.div`
-        display: flex;
 
-`
 
 
 
@@ -141,41 +132,67 @@ export const StyledIconesProfil = styled.div`
 export const StyledContenairPosts = styled.div`
         display: flex;
         flex-direction: column;
-        width: 100%;
+       // width: 100%;
 `
 
 // Bloc Post
 export const StyledCardPost = styled.div`
-        border: 1px solid #DADBDE;
+        border: 1px solid ${colors.borderColor};
         box-shadow: 1px 1px 15px ${colors.tertiary};
-        color: #4E5166;
+        color: ${colors.tertiary};
         margin-top: 20px;
         margin-bottom: 20px;
         margin-left: auto;
         margin-right: auto;
-        width: 80%;
+      //  width: 80%;
+      
 `
 
 // Header du bloc Post
 export const StyledHeaderContenairPost = styled.div`
-        border-bottom: 1px solid #DADBDE;
-        background-color: #ECECEE;
+        border-bottom: 1px solid ${colors.borderColor};
+        background-color: ${colors.yellowishGray};
         padding: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-size: 12px;
+        @media screen and (max-width: 480px) {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0px;
+            padding-right: 0px;
+              
+        }
 `
 
 
 // Titre du Post
 export const StyledTitlePost = styled.div`
         font-size: 18px;
+        text-align: center;
+        @media screen and (max-width: 480px) {
+            // font-size: 15px;
+             border-top: solid 1px lightgray;
+             padding-top: 10px;
+             padding-bottom: 10px;
+             margin-top: 8px;
+             
+             width: 100%;
+               
+         }
 `
 
 // Bloc Icônes "Modifier/Supprimer" d'un Post
 export const StyledIconesPost = styled.div`
         display: flex;
+        @media screen and (max-width: 480px) {
+            margin-bottom: -9px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+              
+        }
 `
 
 // Body du bloc Post
@@ -183,44 +200,55 @@ export const StyledBodyContenairPost = styled.div`
         display: flex;
         background-color: ${colors.white};
         align-items: center;
+        @media screen and (max-width: 480px) {
+            display: flex;
+            flex-direction: column-reverse;
+              
+        }
 `
 
 // Bloc image du body du Post
 export const StyledDivImagePost = styled.div`
-        margin-left: 20px;
-        margin-right: 20px;
-        width: 35%;
+     //   margin-left: 20px;
+      //  margin-right: 20px;
+      //  width: 35%;
 `
 // Image du Post
 export const StyledImagePost = styled.img`
-        height: 150px;
-        width: 100%;
+        height: 130px;
+        width: 200px;
         align-self: center;
         vertical-align: middle;
         object-fit: contain;
 `
 // Bloc contenu du Post
 export const StyledContenuPost = styled.div`
-            width: 100%;
-            padding-bottom: 13px;
-            padding-right: 7px;
+          //  width: 100%;
+            // padding-bottom: 13px;
+            // padding-right: 7px;
             
 `
 // Bloc Description du Post
 export const StyledDescriptionPost = styled.div`
        // text-align : justify;
-        padding: 10px;
-        border-left: solid 1px #DADBDE;
+        padding: 20px;
+        border-left: solid 1px ${colors.borderColor};
         min-height: 90px;
-        max-height: 150px;
-        text-overflow: ellipsis;
-        overflow: auto;
+        // max-height: 150px;
+        // text-overflow: ellipsis;
+        // overflow: auto;
+        white-space: break-spaces;
+        @media screen and (max-width: 480px) {
+            border-bottom: solid 1px ${colors.borderColor};
+            border-left: none;
+              
+        }
         
 `
 //Footer du bloc Post
 export const StyledFooterContenairPost = styled.div`
-        border-top: 1px solid #DADBDE;
-        background-color: #F0F2F5;
+        border-top: 1px solid ${colors.borderColor};
+        background-color: ${colors.lightGray};
         padding: 10px;
         display: flex;
         justify-content: space-between;
@@ -231,19 +259,6 @@ export const StyledFooterContenairPost = styled.div`
 export const StyledPublishedDate = styled.div`
 
 `
-// Bloc Like du Post
-export const StyledLike = styled.div`
-        display: flex;
-        align-items: center;
-`
-// Image du Like du Post
-export const StyledImageLike = styled.img`
-        width: 20px;
-        margin-left: 10px;
-        transition: transform 110ms ease-in-out;
-            &:hover{
-                transform: translate(0px,1px); 
-            }
-`
+
 
 

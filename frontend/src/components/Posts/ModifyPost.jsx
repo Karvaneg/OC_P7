@@ -6,27 +6,32 @@ import { StyledIconeModifyPost, StyledModal, StyledFormGroup, StyledTextSpecifie
              from './modifyPostStyle';
 
 function ModifyPost({ data, setData, idPost, idUserPost  }) {
+
+    // [1] state (état, données)
     const { isShowing: isModifyPost, toggle: toggleModifyPost} = useModal();
+    // On récupère les données de l'utilisateur connecté, grâce au Context
     const {user, setUser} = useContext(UserContext);
+    // On récupère le token dans le localstorage
     const isToken = localStorage.getItem("token");
+    // On sélectionne uniquement le post que l'utilisateur souhaite modifier
     const postSelect = data.find((itemSelect) => itemSelect._id === idPost);
-    
     const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(true);
+    // On récupère les données du post depuis index.jsx du dossier Dashboard pour les afficher dans les input de la Modal
     const [imageHandlePost, setImageHandlePost] = useState(postSelect.imageUrl);
     const [titleHandlePost, setTitleHandlePost] = useState(postSelect.title);
     const [descriptionHandlePost, setDescriptionHandlePost] = useState(postSelect.description);
 
+    // [2] comportements
     function onModify(event) {
+        // On empêche le rechargement de la page
         event.preventDefault();
         // On vérifie que l'utilisateur connecté est l'auteur du post ou que l'utilisateur connecté est l'admin
         if(idUserPost === user._id || user.isAdmin === true){
+            // On met les nouvelles données dans formData
             const formData = new FormData();
             formData.append("title", titleHandlePost);
             formData.append("description", descriptionHandlePost);
             formData.append("image", imageHandlePost);
-            formData.forEach((value, key) => {
-                console.log(key + " " + value);
-            })
 
             // On indique la méthode d'envoi des données
             // Options de la requête fetch => PUT et Autorisation
@@ -38,54 +43,26 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
                 },
                 body:  formData
             };
+
             // Call API pour la connexion
-            
             fetch(`http://localhost:8000/api/posts/${idPost}`, requestOptions)
                 .then((response) => {
                     return response.json();
                 })
                 .then((res) => {
-                    
                     // si l'auteur du post ne change pas la photo du post, on met à jour uniquement le titre et la description
                     if (res.postObject.image === imageHandlePost) {
-                    //     const postModify = {
-                    //         ...postSelect,
-                    //         _id: idPost,
-                    //         title: titleHandlePost,
-                    //         description: descriptionHandlePost,
-                    //        // imageUrl: imageHandlePost
-                    //     };
-                    //     // on filtre tous les posts sauf le post qui est en train d'être modifié...
-                    //     const recherche = data.filter((item) => item._id !== idPost);
-                    //     // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
-                    //    // console.log(postModify);
-                    //     setData([...recherche, postModify]);
-
+                        // On génère une nouvelle liste de posts en mettant à jour le post qui vient d'être modifié
                         const newPostList = data.map(post => post._id !== idPost ? post: {...post, _id: idPost, title: titleHandlePost, description: descriptionHandlePost});
-                        console.log(newPostList);
                         setData(newPostList);
-        
+
                     } else {
                         // sinon, on met aussi à jour l'image
-                    //     const postModify = {
-                    //         ...postSelect,
-                    //         _id: idPost,
-                    //         title: titleHandlePost,
-                    //         description: descriptionHandlePost,
-                    //         imageUrl: res.postObject.imageUrl
-                    //     };
-                    //     // on filtre tous les posts sauf le post qui est en train d'être modifié...
-                    //     const recherche = data.filter((item) => item._id !== idPost);
-                    //     // ...et, on ajoute à ces posts filtrés, les mises à jour du post modifié
-                    //   //  console.log(postModify);
-                    //     setData([...recherche, postModify]);
-
+                        // On génère une nouvelle liste de posts en mettant à jour le post qui vient d'être modifié
                         const newPostList = data.map(post => post._id !== idPost ? post: {...post, _id: idPost, title: titleHandlePost, description: descriptionHandlePost, imageUrl: res.postObject.imageUrl});
-                        console.log(newPostList);
                         setData(newPostList);
-                    
                     }
-                    alert("Le post a bien été modifié !")
+                    // On ferme automatiquement la Modal
                     toggleModifyPost();
                 })
                 .catch((err) => {
@@ -109,7 +86,7 @@ function ModifyPost({ data, setData, idPost, idUserPost  }) {
         };
     }, [idUserPost, user._id, user.isAdmin]);
 
-
+    // [3] affichage (render et rerender)
    return (
     <StyledModal>
         { isAuthorOrAdmin && (

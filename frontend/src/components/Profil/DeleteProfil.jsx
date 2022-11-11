@@ -6,11 +6,14 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { UserContext } from '../../utils/context/DataUserConnectedContext';
 
 function DeleteProfil({ userProfil }) {
-    const { user, setUser } = useContext(UserContext);
-    const isToken = localStorage.getItem("token");
-    console.log(user._id);
-    console.log(userProfil._id);
 
+    // [1] state (état, données)
+    // On récupère les données de l'utilisateur connecté, grâce au Context
+    const { user, setUser } = useContext(UserContext);
+    // On récupère le token dans le localstorage
+    const isToken = localStorage.getItem("token");
+   
+    // [2] comportements
     function onDelete() {
         // On demande la confirmation de la suppression du profil
         confirmAlert({
@@ -30,8 +33,8 @@ function DeleteProfil({ userProfil }) {
                                 };
 
                                 fetch(`http://localhost:8000/api/profils/${userProfil._id}`, requestOptions)
-                                    .then((response) => {
-                                        alert ("Le profil a bien été supprimé."); 
+                                    .then((response) => { 
+                                        // On vide le localstorage et on fait une redirection vers la page de connexion
                                         localStorage.clear();
                                         document.location.href = `/`;
                                     })
@@ -53,7 +56,7 @@ function DeleteProfil({ userProfil }) {
             ]
         });
     }
-
+    // [3] affichage (render et rerender)
     return (
         <StyledDivIconeDeleteProfil>
           <StyledIconeDeleteProfil src={poubelle} onClick={onDelete} alt="imageDeleteProfil" title="Supprimer" />

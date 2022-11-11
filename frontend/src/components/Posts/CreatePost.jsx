@@ -4,24 +4,28 @@ import { useModal, Modal } from "../../utils/hooks/setModal";
 import { StyledModal, StyledFormGroup, StyledTextSpecifiedFormatFile } from './createPostStyle';
 
 function CreatePost({ data, setData }) {
+
+    // [1] state (état, données)
     const { isShowing: isAddPost, toggle: toggleAddPost} = useModal();
+    // On récupère les données de l'utilisateur connecté, grâce au Context
     const {user, setUser} = useContext(UserContext);
+    // On récupère le token dans le localstorage
     const isToken = localStorage.getItem("token");
     const [imageHandlePost, setImageHandlePost] = useState("");
     const [titleHandlePost, setTitleHandlePost] = useState("");
     const [descriptionHandlePost, setDescriptionHandlePost] = useState("");
 
+    // [2] comportements
     function onCreate(event) {
+        // On empêche le rechargement de la page
         event.preventDefault();
+        // On met les valeurs des inputs, renseignées par l'utilisateur dans formData
         const formData = new FormData();
         formData.append("title", titleHandlePost);
         formData.append("description", descriptionHandlePost);
         formData.append("image", imageHandlePost);
         formData.append("userId", user._id);
         formData.append("publishedDate", Date.now());
-        formData.forEach((value, key) => {
-            console.log(key + " " + value);
-        })
 
             // On indique la méthode d'envoi des données
             // Options de la requête fetch => POST et Autorisation
@@ -41,7 +45,7 @@ function CreatePost({ data, setData }) {
                 })
                 .then((postData) => {
                     setData([...data, postData.post]);
-                    alert ("Votre post a bien été créé.");
+                    // On ferme automatiquement la Modal
                     toggleAddPost();
                 })
                 .catch((err) => {
@@ -49,6 +53,8 @@ function CreatePost({ data, setData }) {
                     alert ("Un problème a été rencontré lors de l'envoi du formulaire.");
                 });
     }
+
+    // [3] affichage (render et rerender)
     return (
     <StyledModal>
         <button className="modal-toggle" onClick={toggleAddPost}>Ajouter un post</button>

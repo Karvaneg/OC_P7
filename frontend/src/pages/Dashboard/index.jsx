@@ -2,7 +2,7 @@ import { DocumentTitle, useDocumentTitle } from "../../utils/hooks/setDocumentTi
 import { StyledHeaderContenairPost, StyledContenairPosts, StyledCardPost, StyledAuthorPost, StyledBodyContenairPost, 
   StyledFooterContenairPost, StyledDivImagePost, StyledPublishedDate, 
   StyledImagePost, StyledContenuPost, StyledDescriptionPost, StyledTitlePost, StyledIconesPost, 
-  StyledHeaderDashBoard, StyledModal, StyledImageProfil, StyledDivNoAuthor } from './dashboardStyle'
+  StyledHeaderDashBoard, StyledModal, StyledImageProfil, StyledDivNoAuthor, StyledDashboard } from './dashboardStyle'
 import React, { useState, useEffect, useContext } from "react"
 import Moment from 'react-moment';
 import { Loader } from "../../utils/style/loader";
@@ -14,12 +14,13 @@ import { UserContext } from "../../utils/context/DataUserConnectedContext";
 
 
 function Dashboard() {
-    useDocumentTitle(`${DocumentTitle.dashboard}`);
-   // const userConnected = useContext(UserContext);
-    const {user, setUser} = useContext(UserContext);
-   // console.log(user);
 
-  // [1] state (état, données)
+    useDocumentTitle(`${DocumentTitle.dashboard}`);
+   
+    // [1] state (état, données)
+    // On récupère les données de l'utilisateur connecté, grâce au Context
+    const {user, setUser} = useContext(UserContext);
+    // On récupère le token dans le localstorage
     const token = localStorage.getItem("token");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,7 +29,6 @@ function Dashboard() {
     const [isLiked, setIsLiked] = useState(false);
 
   // [2] comportements
-
     // On récupère tous les posts de la base de données
     useEffect(() => {
       fetch('http://localhost:8000/api/posts', { headers: {"Authorization" : `Bearer ${token}`} } )
@@ -76,9 +76,8 @@ function Dashboard() {
 
   // [3] affichage (render et rerender)
   return (
-    <>
+    <StyledDashboard>
       <h1>Bienvenue {user.firstname} {user.lastname} !</h1>
-
       <StyledHeaderDashBoard>
         <StyledModal>
            <CreatePost data={data} setData={setData} /> 
@@ -93,7 +92,6 @@ function Dashboard() {
       <StyledContenairPosts>
         {data && [...data].reverse().map((item) => ( 
             <StyledCardPost key={item._id}>
-
                 <StyledHeaderContenairPost>
                   <StyledDivNoAuthor>
                     {userData && userData.map((author) => {
@@ -104,12 +102,12 @@ function Dashboard() {
                         }
                     })}
                   </StyledDivNoAuthor>
-           {/* //////// Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
-                    <StyledTitlePost>{item.title}</StyledTitlePost>
-                    <StyledIconesPost>
-                        <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
-                        <DeletePost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
-                    </StyledIconesPost>
+           {/* //////// Axe d'amélioration : Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
+                  <StyledTitlePost>{item.title}</StyledTitlePost>
+                  <StyledIconesPost>
+                      <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
+                      <DeletePost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
+                  </StyledIconesPost>
                 </StyledHeaderContenairPost>
 
                 <StyledBodyContenairPost>
@@ -126,7 +124,7 @@ function Dashboard() {
                       Publié le : <Moment format="DD/MM/YYYY">{item.publishedDate}</Moment>
                     </StyledPublishedDate>
                     <div>
-                        <AddLike publishedDate={item.publishedDate} isLiked={isLiked} setIsLiket={setIsLiked} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
+                        <AddLike isLiked={isLiked} setIsLiket={setIsLiked} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
                     </div>
                 </StyledFooterContenairPost>
 
@@ -134,7 +132,7 @@ function Dashboard() {
           ))}
      </StyledContenairPosts> 
     
-    </>
+    </StyledDashboard>
   ); 
  }
  export default Dashboard;

@@ -23,7 +23,6 @@ schema
 .has().digits(2);                                // Doit avoir au moins 2 chiffres
 
 
-
 // Controleur pour la création d'un compte utilisateur
 exports.signup = (req, res, next) => {
     // On vérifie que l'e-mail entré par l'utilisateur ne correspond pas à un utilisateur existant de la base de données
@@ -87,7 +86,6 @@ exports.login = (req, res, next) => {
                         } else {
                             res.status(200).json({
                                 userId: user._id,
-                               // isAdmin: user.isAdmin,
                                 // Fonction sign sert à chiffrer un nouveau token
                                 token: jwt.sign(
                                     { userId: user._id },
@@ -121,7 +119,7 @@ exports.deleteProfil = (req, res, next) => {
                     User.deleteOne({_id: req.params.id})
                         .then(() => res.status(200).json({message: 'Profil supprimé !'}))
                         .catch(() => res.status(400).json({ message: 'Le profil que vous souhaitez supprimer est introuvable !' }));
-                // sinon, on suprrime le profil, y compris l'image du profil
+                // sinon, on supprime le profil, y compris l'image du profil
                 } else {
                     // On supprime le fichier image du post
                         fs.unlink(`images/${filenameStock}`, () => {
@@ -134,41 +132,6 @@ exports.deleteProfil = (req, res, next) => {
                 res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas autorisé à supprimer ce profil !'});
             }
         })
-        .catch( error => {
-            res.status(500).json({ error });
-        }); 
-};
-
-// Contrôleur pour l'affichage de tous les profils
-exports.getAllProfils = (req, res, next) => {
-    User.findById(req.auth.userId)
-        .then((user) => {
-         //   if (user.isAdmin != false) {
-                User.find() // on utilise la méthode find et on renvoie un tableau contenant les Profils de la BDD
-                    .then(profils => res.status(200).json(profils))
-                    .catch(() => res.status(400).json({ message: 'La liste des profils est introuvable !' }));
-           // } else {
-             //   res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'administrateur du site !'});
-           // }
-        })    
-        .catch((error) => {
-            error,
-            res.status(500).json({ message: 'La requête envoyée par le navigateur n\'a pas pu être traitée pour une raison qui n\'a pas pu être identifiée.' });
-        }); 
-};
-    
-// Contrôleur pour l'affichage d'un profil, uniquement par l'administrateur et le propriétaire du profil
-exports.getOneProfil = (req, res, next) => {
-    User.findById(req.auth.userId)
-        .then((user) => {
-            if (user.isAdmin != false || req.auth.userId === req.params.id) {
-                User.findOne({ _id: req.params.id })
-                    .then(profil => res.status(200).json(profil))
-                    .catch(() => res.status(400).json({ message: 'Le profil demandé est introuvable !' }));
-            } else {
-                res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'adminitrateur du site ou le propriétaire de ce profil  ! '});
-            }
-        })    
         .catch( error => {
             res.status(500).json({ error });
         }); 
@@ -216,3 +179,42 @@ exports.modifyProfil = (req, res, next) => {
             res.status(400).json({ error });
         });
 };
+
+// Contrôleur pour l'affichage d'un profil, uniquement par l'administrateur et le propriétaire du profil
+exports.getOneProfil = (req, res, next) => {
+    User.findById(req.auth.userId)
+        .then((user) => {
+            if (user.isAdmin != false || req.auth.userId === req.params.id) {
+                User.findOne({ _id: req.params.id })
+                    .then(profil => res.status(200).json(profil))
+                    .catch(() => res.status(400).json({ message: 'Le profil demandé est introuvable !' }));
+            } else {
+                res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'adminitrateur du site ou le propriétaire de ce profil  ! '});
+            }
+        })    
+        .catch( error => {
+            res.status(500).json({ error });
+        }); 
+};
+
+//***********************************************************//
+//******La partie qui suit reste à finir de développer******//
+//*********************************************************//
+// Contrôleur pour l'affichage de tous les profils
+exports.getAllProfils = (req, res, next) => {
+    User.findById(req.auth.userId)
+        .then((user) => {
+         //   if (user.isAdmin != false) {
+                User.find() // on utilise la méthode find et on renvoie un tableau contenant les Profils de la BDD
+                    .then(profils => res.status(200).json(profils))
+                    .catch(() => res.status(400).json({ message: 'La liste des profils est introuvable !' }));
+           // } else {
+             //   res.status(403).json({message: 'Requête non autorisée ! Vous n\'êtes pas l\'administrateur du site !'});
+           // }
+        })    
+        .catch((error) => {
+            error,
+            res.status(500).json({ message: 'La requête envoyée par le navigateur n\'a pas pu être traitée pour une raison qui n\'a pas pu être identifiée.' });
+        }); 
+};
+    

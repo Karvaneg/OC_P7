@@ -6,28 +6,48 @@ _(Projet 7 - Formation en Web Développement - Openclassrooms)_
 
 ## Scénario
 
+Vous êtes développeur depuis plus d'un an chez CONNECT-E, une petite agence web regroupant une douzaine d'employés.
+Votre directrice, Stéphanie, vient de signer un nouveau contrat avec Groupomania, un groupe spécialisé dans la grande distribution, et l'un des plus fidèles clients de l'agence.
+
+Le projet consiste à construire un réseau social interne pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues. Le département RH de Groupomania a imaginé plusieurs fonctionnalités pour favoriser les échanges entre collègues.
 
 
-### API Routes
+### Aspect Graphique
 
+● Police d'écriture : tous les textes du site doivent utiliser la police Lato.
+● Couleurs : 
+    ● Primaire : #FD2D01
+    ● Secondaire : #FFD7D7
+    ● Tertiaire : #4E5166
+● Responsive desktop, tablette, mobile
+● Ne pas se lancer dans quelque chose de trop compliqué pour cette première version.
 
+### Côté Technique
 
-### Exigences de sécurité
+● Mettre en place backend, frontend et base de données.
 
-● Le mot de passe de l'utilisateur doit être haché.
+● Coder en javascript et respecter les standards WCAG.
 
-● L'authentification doit être renforcée sur toutes les routes requises.
+● Utilisation obligatoire d'un framework frontend Javascript.
 
-● Les adresses électroniques dans la base de données sont uniques et un plugin Mongoose approprié est utilisé pour garantir leur unicité et signaler les erreurs.
+● Une page de connexion : permettant à un utilisateur de se connecter ou de créer un compte s'il n'en possède pas déjà un. Un utilisateur doit avoir la possibilité de se déconnecter, la session utilisateur doit pouvoir persister pendant la connexion et les données de connexion doivent être sécurisées.
 
-● La sécurité de la base de données MongoDB (à partir d'un service tel que MongoDB Atlas) ne doit pas empêcher l'application de se lancer sur la machine d'un utilisateur.
+● Une page d'accueil : liste les posts créés par les différents utilisateurs, de manière antéchronologique.
 
-● Un plugin Mongoose doit assurer la remontée des erreurs issues de la base de données.
+● Création d'un post : un utilisateur doit pouvoir créer un post. Un post doit pouvoir contenir du texte et une image. Enfin, un utilisateur doit pouvoir modifier ou supprimer ses posts.
 
-● Les versions les plus récentes des logiciels sont utilisées avec des correctifs de sécurité actualisés.
+● Système de like : un utilisateur doit pouvoir liker un post, une seule fois pour chaque post.
 
-● Le contenu du dossier images ne doit pas être téléchargé sur GitHub.
+● Rôle administrateur : dans le but de pouvoir faire de la modération si nécessaire, il faudra créer un utilisateur “administrateur” ; celui-ci aura les droits de modification / suppression sur tous les posts du réseau social.
 
+## Mise en route de l'application
+
+1) `Cloner le Repository` : `git clone https://github.com/Karvaneg/OC_P7.git`
+2) Dans le terminal de commande, depuis le dossier `frontend`, taper `npm install` puis `npm start`.
+3) Dans le dossier `backend`, renommer le fichier `.env.example` en `.env` et y mettre vos variables d'environnement.
+4) Dans le terminal de commande, depuis le dossier `backend`, taper `npm install` puis `node server` ou `nodemon server`.
+5) L'application sera lancé sur `http://localhost:3000`.
+6) Le `backend` tourne sur le port `8000`.
 
 ## Compétences évaluées
 
@@ -101,14 +121,6 @@ ____
 * [MongoDB Atlas Database](https://www.mongodb.com/) - Système de gestion de base de données orienté documents
 * [Postman](https://www.postman.com/) - Application permettant de tester des API
 * [Visual Studio Code](https://code.visualstudio.com/) - Editeur de codes
-
-## Mise en route
-
-1) `Cloner le Repository`.
-2) Dans le terminal de commande, depuis le dossier `frontend`, taper `npm install` puis `npm start`.
-3) Dans le dossier `backend`, renommer le fichier `.env.example` en `.env` et y mettre vos variables d'environnement.
-4) Dans le terminal de commande, depuis le dossier `backend`, taper `npm install` puis `node server` ou `nodemon server`.
-5) Le serveur doit fonctionner sur `localhost` avec le port par défaut `3000`.
 
 ## Auteurs
 

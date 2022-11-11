@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import Header from './components/Header';
 import Connexion from './pages/Connexion';
 import Profil from './pages/Profil';
@@ -12,11 +11,11 @@ import { UserContextProvider } from './utils/context/DataUserConnectedContext';
 
 // on récupère le token du localstorage et on le met dans une variable
 const isToken = localStorage.getItem("token");
-
 // On récupère la date de connexion de l'utilisateur dans le localstorage et on la met dans une variable
 const dateUserConnection = localStorage.getItem("dateConnection");
 //On calcule la différence entre la date à l'instant t et la date de connexion de l'utilisateur
 const sessionDuration = Date.now() - dateUserConnection;
+
 //Fonction pour pour stopper la session d'un utilisateur si celle-ci est supérieure à 24h
 const StopedSession = ({ children }) => {
   //Si la date de connexion n'est pas null et que la différence entre les 2 dates est supérieur à 24h (86400000millisecondes)
@@ -37,7 +36,7 @@ const ProtectedRoutes = ({ children }) => {
     // si pas de token dans le localstorage, on redirige vers la page connexion
     return <Navigate to="/" replace />;
   }
-    // sinon token dans le localstorage, on laisse l'accès à la page demandée
+    // sinon si token dans le localstorage, on laisse l'accès à la page demandée
     return children;
 };
 
@@ -55,7 +54,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      {/* <StopedSession> */}
           <StyledGlobalStyle />
           <Header />
           <Routes>
@@ -84,7 +82,6 @@ root.render(
               } />
               <Route path="*" element={<Error />} />
           </Routes>
-          {/* </StopedSession> */}
     </Router>
   </React.StrictMode>
 );

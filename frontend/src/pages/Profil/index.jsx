@@ -3,8 +3,8 @@ import {useDocumentTitle} from "../../utils/hooks/setDocumentTitle"
 import { StyledContainer, ConnectionForm, StyledDivImageProfil, StyledImageProfil, StyledProfilInformation, 
     StyledFirstnameLastname, StyledEmail, StyledIconesProfil, StyledPublicationsProfil,
     StyledFooterContenairPost,StyledBodyContenairPost,StyledDivImagePost,StyledImagePost,StyledContenuPost,
-    StyledDescriptionPost,StyledPublishedDate,StyledContenairPosts,StyledCardPost,StyledLike, StyledHeaderContenairPost,
-    StyledAuthorPost,StyledTitlePost,StyledIconesPost, StyledInformationsProfil, StyledImageProfilPost } from "./profilStyle";
+    StyledDescriptionPost,StyledPublishedDate,StyledContenairPosts,StyledCardPost, StyledHeaderContenairPost, StyledAuthorPost,
+    StyledTitlePost,StyledIconesPost, StyledInformationsProfil, StyledImageProfilPost, StyledProfil } from "./profilStyle";
 import React, { useContext, useState, useEffect } from 'react';
 import profile from '../../assets/defaultImageProfile.png'
 import { Loader } from "../../utils/style/loader";
@@ -18,10 +18,14 @@ import ModifyProfil from "../../components/Profil/ModifyProfil";
 
 
 export default function Profil() {
+
     useDocumentTitle(`${DocumentTitle.profil}`);
-    const {user, setUser} = useContext(UserContext);
+
     // [1] state (état, données)
+    // On récupère les données de l'utilisateur connecté, grâce au Context
+    const {user, setUser} = useContext(UserContext);
     const [data, setData] = useState([]);
+    // On récupère le token dans le localstorage
     const isToken = localStorage.getItem("token");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,9 +46,7 @@ export default function Profil() {
           .then((PostsData) => {
             // on filtre tous les posts pour n'afficher que les posts de l'utilisateur connecté...
             const recherche = PostsData.filter((item) => item.userId === user._id);
- 
             setData([...recherche]);
-            console.log(recherche);
             setError(null);
           })
           .catch((err) => {
@@ -56,6 +58,7 @@ export default function Profil() {
           });
         }, [isToken, user._id]);
 
+        // Si imageUrl n'est pas définie ou vide, on met une image de profil par défaut
         useEffect(() => {
             if(user.imageUrl === "undefined" || user.imageUrl === ""){
                 setIsImageProfil(false);
@@ -64,6 +67,7 @@ export default function Profil() {
             };
         }, [user.imageUrl]);
 
+        // S'il s'agit du profil de l'administrateur, on ne met pas l'icône "Suppression"
         useEffect(() => {
             if(user.isAdmin === true){
                 setIsAdminProfil(false);
@@ -75,7 +79,7 @@ export default function Profil() {
 
     // [3] affichage (render et rerender)
     return (
-        <div>
+        <StyledProfil>
             <h1>
                Mon Profil
             </h1>
@@ -86,7 +90,7 @@ export default function Profil() {
             <StyledContainer>
                 <StyledInformationsProfil>
                     <h2>
-                        Mes informations personnelles
+                        Mes informations
                     </h2>
                     <ConnectionForm>
                         <StyledDivImageProfil>
@@ -118,7 +122,6 @@ export default function Profil() {
                         Mes publications
                     </h2>
                     <StyledContenairPosts>
-                    {/* {data && data.map((item) => ( */}
                         {data && [...data].reverse().map((item) => ( 
                             <StyledCardPost key={item._id}>
                                 <StyledHeaderContenairPost>
@@ -144,9 +147,7 @@ export default function Profil() {
                                         Publié le : <Moment format="DD/MM/YYYY" key={"date" +item.userId+item.publishedDate}>{item.publishedDate}</Moment>
                                     </StyledPublishedDate>
                                     <div>
-                                        <StyledLike>
-                                            <AddLike key={"likes" +item.likes+item._id} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
-                                        </StyledLike>
+                                        <AddLike key={"likes" +item.likes+item._id} data={data} setData={setData} numberLike={item.likes} usersliked={item.usersLiked} idPost={item._id} />
                                     </div>
                                 </StyledFooterContenairPost>
                             </StyledCardPost>
@@ -154,6 +155,6 @@ export default function Profil() {
                     </StyledContenairPosts>
                 </StyledPublicationsProfil>
             </StyledContainer>
-        </div>
+        </StyledProfil>
     );
 }

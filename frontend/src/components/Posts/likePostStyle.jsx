@@ -1,10 +1,13 @@
 import styled  from 'styled-components'
-import colors from '../../utils/style/colors'
 
 // Bloc Like du Post
 export const StyledLike = styled.div`
         display: flex;
         align-items: center;
+
+        @media screen and (max-width: 768px) {
+            width: 72px;   
+        }
 `
 
 // Image du Like du Post

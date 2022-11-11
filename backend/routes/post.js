@@ -15,7 +15,7 @@ router.get('/:id', auth, postCtrl.getOnePost);
 // Requête GET | Afficher tous les posts
 router.get('/', auth, postCtrl.getAllPosts);
 
-// Requête POST | Gestion likes & dislikes
+// Requête POST | Gestion like & dislike
 router.post("/:id/like", auth, postCtrl.manageLike);
 
 // On exporte les routers
