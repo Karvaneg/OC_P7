@@ -12,11 +12,9 @@ module.exports = (req, res, next) => {
        const decodedToken = jwt.verify(token, process.env.RANDOM_TOKEN_SECRET);
        // On extrait l'userId du token
        const userId = decodedToken.userId;
-     //  const isAdmin = decodedToken.isAdmin;
        // Et, on rajoute l'userId à l'objet Request pour qu'il soit exploité par les différentes routes
        req.auth = {
            userId: userId
-         //  isAdmin: isAdmin
        };
 	next();
    } catch(error) {

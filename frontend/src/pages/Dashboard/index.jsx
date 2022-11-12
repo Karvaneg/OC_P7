@@ -95,12 +95,13 @@ function Dashboard() {
                 <StyledHeaderContenairPost>
                   <StyledDivNoAuthor>
                     {userData && userData.map((author) => {
-                        if(author._id === item.userId){
+                        if(author._id && author._id === item.userId){
                             return <StyledAuthorPost key={author._id}><StyledImageProfil src={author.imageUrl} alt="PhotoUtilisateur"/> {author.firstname} {author.lastname} </StyledAuthorPost>
                         } else {
                             return null
                         }
                     })}
+                    
                   </StyledDivNoAuthor>
            {/* //////// Axe d'amélioration : Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
                   <StyledTitlePost>{item.title}</StyledTitlePost>

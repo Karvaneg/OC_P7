@@ -17,7 +17,7 @@ function Signup() {
         const [ e, setE ] = useState(true);
 
         // State input email et password
-        const [emailSignup, setEmailSignup] = useState("👤Email ");
+        const [emailSignup, setEmailSignup] = useState("👤Email");
         const [passwordSignup, setPasswordSignup] = useState("🔐️ Mot de passe");
         const [firstname, setFirstname] = useState("Votre prénom");
         const [lastname, setLastname] = useState("Votre nom");
@@ -36,7 +36,7 @@ function Signup() {
         // du champ email
         const emailHandleChangeSignup = (event) => {
             if(emailSignup.length <= 1){
-                setEmailSignup("👤Email ");
+                setEmailSignup("👤Email");
             } else {
                 setEmailSignup(event.target.value);
             }
@@ -116,7 +116,7 @@ function Signup() {
                             //... et on réinitialise "decompte", les différents messages et les inputs (remise à l'état initial)
                             setTimeout(function(){
                                 toggleRegistrationForm();
-                                setEmailSignup("👤Email ");
+                                setEmailSignup("👤Email");
                                 setPasswordSignup("🔐️ Mot de passe");
                                 setFirstname("Votre prénom");
                                 setLastname("Votre nom");
@@ -200,14 +200,14 @@ function Signup() {
                         
                         { isEmailInDatabase ? (
                             <StyledIsConnectSignupText>
-                                L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
+                                L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} seconde(s).
                             </StyledIsConnectSignupText>
                         ) : (
                             null
                         )}
                         { isSignupValid ? (
                             <StyledIsConnectSignupText>
-                                Votre inscription a bien été prise en compte ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
+                                Votre inscription a bien été prise en compte ! Vous allez être redirigé vers la page de connexion dans {decompte} seconde(s).
                             </StyledIsConnectSignupText>
                         ) : (
                             null

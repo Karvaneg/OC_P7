@@ -41,6 +41,7 @@ export const StyledHeaderDashBoard = styled.div`
 export const StyledContenairPosts = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
 `
 
 // Bloc Post
@@ -53,9 +54,10 @@ export const StyledCardPost = styled.div`
     margin-left: auto;
     margin-right: auto;
     width: 60%;
-        @media screen and (max-width: 768px) {
-            width: 90%;     
-        }
+
+    @media screen and (max-width: 768px) {
+        width: 90%;     
+    }
 `
 
 // Header du bloc Post
@@ -68,12 +70,12 @@ export const StyledHeaderContenairPost = styled.div`
     align-items: center;
     font-size: 12px;
         
-        @media screen and (max-width: 480px) {
-            display: flex;
-            flex-direction: column;
-            padding-left: 0px;
-            padding-right: 0px;   
-        }
+    @media screen and (max-width: 480px) {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0px;
+        padding-right: 0px;   
+    }
 `
 
 // Auteur du Post
@@ -87,6 +89,7 @@ export const StyledAuthorPost = styled.div`
 `
 export const StyledDivNoAuthor = styled.div`
     width: 25%;
+    height: 30px;
 
     @media screen and (max-width: 480px) {
         width: 100%;      
@@ -106,7 +109,7 @@ export const StyledTitlePost = styled.div`
     text-align: center;
 
     @media screen and (max-width: 480px) {
-        border-top: solid 1px lightgray;
+        border-top: solid 1px ${colors.borderColor};
         padding-top: 10px;
         padding-bottom: 10px;
         margin-top: 8px;
@@ -123,7 +126,7 @@ export const StyledIconesPost = styled.div`
         width: 100%;
         display: flex;
         justify-content: space-between;    
-        }
+    }
 `
 
 // Body du bloc Post
@@ -152,7 +155,7 @@ export const StyledImagePost = styled.img`
 `
 // Bloc contenu du Post
 export const StyledContenuPost = styled.div`
-            
+    width: 100%;
 `
 // Bloc Description du Post
 export const StyledDescriptionPost = styled.div`

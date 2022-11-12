@@ -47,6 +47,9 @@ function CreatePost({ data, setData }) {
                     setData([...data, postData.post]);
                     // On ferme automatiquement la Modal
                     toggleAddPost();
+                    // On réinitialise les input
+                    setTitleHandlePost("");
+                    setDescriptionHandlePost("");
                 })
                 .catch((err) => {
                     console.log("Erreur Fetch", err);
