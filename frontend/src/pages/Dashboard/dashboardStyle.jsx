@@ -1,23 +1,6 @@
 import styled  from 'styled-components'
 import colors from '../../utils/style/colors'
 
-// Mise en forme du bouton Ajouter un post du Tableau de bord et de la Modal pour ajouter un post
-export const StyledModal = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-        & button.modal-toggle {
-          background-color: ${colors.secondary};
-          cursor: pointer;
-          padding: 10px 15px;
-          text-transform: uppercase;
-          border: none;
-        }
-        & button.modal-toggle:not(:first-child) {
-          margin-left: 10px;
-        }
-`
-
 export const StyledDashboard = styled.div`
 
 `

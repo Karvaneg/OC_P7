@@ -2,7 +2,7 @@ import { DocumentTitle, useDocumentTitle } from "../../utils/hooks/setDocumentTi
 import { StyledHeaderContenairPost, StyledContenairPosts, StyledCardPost, StyledAuthorPost, StyledBodyContenairPost, 
   StyledFooterContenairPost, StyledDivImagePost, StyledPublishedDate, 
   StyledImagePost, StyledContenuPost, StyledDescriptionPost, StyledTitlePost, StyledIconesPost, 
-  StyledHeaderDashBoard, StyledModal, StyledImageProfil, StyledDivNoAuthor, StyledDashboard } from './dashboardStyle'
+  StyledHeaderDashBoard, StyledImageProfil, StyledDivNoAuthor, StyledDashboard } from './dashboardStyle'
 import React, { useState, useEffect, useContext } from "react"
 import Moment from 'react-moment';
 import { Loader } from "../../utils/style/loader";
@@ -79,9 +79,7 @@ function Dashboard() {
     <StyledDashboard>
       <h1>Bienvenue {user.firstname} {user.lastname} !</h1>
       <StyledHeaderDashBoard>
-        <StyledModal>
            <CreatePost data={data} setData={setData} /> 
-        </StyledModal>
       </StyledHeaderDashBoard>
       
       {loading && <Loader></Loader>}
@@ -106,7 +104,7 @@ function Dashboard() {
            {/* //////// Axe d'amélioration : Rajouter si l'utilisateur a été supprimé "Auteur: Inconnu"////////// */}
                   <StyledTitlePost>{item.title}</StyledTitlePost>
                   <StyledIconesPost>
-                      <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
+                      <ModifyPost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />  
                       <DeletePost data={data} setData={setData} idPost={item._id} idUserPost={item.userId} />
                   </StyledIconesPost>
                 </StyledHeaderContenairPost>

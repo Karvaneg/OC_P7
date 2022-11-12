@@ -1,6 +1,25 @@
 import styled  from 'styled-components'
 import colors from '../../utils/style/colors'
 
+export const StyledModal = styled.div`
+    
+}
+
+`
+// Mise en forme des boutons oui et non de la Modal
+export const StyledFormGroup = styled.div`
+        margin-top: 10px;
+            & button.modal-toggle {
+                background-color: ${colors.secondary};
+                cursor: pointer;
+                padding: 10px 15px;
+                text-transform: uppercase;
+                border: none;
+                margin-right: 10px;
+                margin-top: 10px;
+            }
+`
+
 // Bloc "Supprimer" d'un Post
 export const StyledDivIconeDeleteProfil = styled.div`
         width:35px;

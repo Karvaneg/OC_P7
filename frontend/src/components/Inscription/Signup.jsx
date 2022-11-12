@@ -200,14 +200,14 @@ function Signup() {
                         
                         { isEmailInDatabase ? (
                             <StyledIsConnectSignupText>
-                                L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} seconde(s).
+                                L'utilisateur {emailSignup} est déjà inscrit ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
                             </StyledIsConnectSignupText>
                         ) : (
                             null
                         )}
                         { isSignupValid ? (
                             <StyledIsConnectSignupText>
-                                Votre inscription a bien été prise en compte ! Vous allez être redirigé vers la page de connexion dans {decompte} seconde(s).
+                                Votre inscription a bien été prise en compte ! Vous allez être redirigé vers la page de connexion dans {decompte} secondes.
                             </StyledIsConnectSignupText>
                         ) : (
                             null
