@@ -52,7 +52,7 @@ Le projet consiste à construire un réseau social interne pour les employés de
 2) Dans le terminal de commande, depuis le dossier `frontend`, taper `npm install` puis `npm start`.
 3) Dans le dossier `backend`, renommer le fichier `.env.example` en `.env` et y mettre vos variables d'environnement.
 4) Dans le terminal de commande, depuis le dossier `backend`, taper `npm install` puis `node server` ou `nodemon server`.
-5) L'application sera lancé sur `http://localhost:3000`.
+5) L'application sera lancée sur `http://localhost:3000`.
 6) Le `backend` tourne sur le port `8000`.
 
 ## Compétences évaluées
@@ -67,7 +67,7 @@ Le projet consiste à construire un réseau social interne pour les employés de
 
 ## Evaluation
 
-___Évaluation___ : Non programmée
+___Évaluation___ : Mardi 15 novembre 2022
 #### -> `Projet  `
 
 
