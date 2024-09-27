@@ -7,7 +7,8 @@ const useDocumentTitle = title => {
 
   // [2] comportements
    useEffect(() => {
-    document.title = document_title; 
+    document.title = document_title;
+    // Liste de dépendances
   },[document_title]);
 
   // [3] affichage (render et rerender)

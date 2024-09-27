@@ -8,12 +8,10 @@ import { StyledModalOverlay, StyledModalWrapper, StyledModalHeader, StyledModal,
 const useModal = () => {
   // [1] state (état, données)
   const [isShowing, setIsShowing] = useState(false);
-
   // [2] comportements
   function toggle() {
     setIsShowing(!isShowing);
   }
-
   // [3] affichage (render et rerender)
   return {
     isShowing,

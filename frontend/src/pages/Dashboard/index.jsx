@@ -49,6 +49,7 @@ function Dashboard() {
         .finally(() => {
           setLoading(false);
         });
+        // Liste de dépendances
     }, [ token ]);
 
     // On récupère les infos de tous les utilisateurs

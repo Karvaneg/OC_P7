@@ -15,7 +15,6 @@ const UserContextProvider = ({ children }) => {
 
 
   // [2] comportements
-
   // Call API pour récupérer les données de l'utilisateur connecté
   useEffect(() => {
     const fetchUser = () => {
@@ -35,8 +34,9 @@ const UserContextProvider = ({ children }) => {
           setUser(null);
         })
     };
-
+    // Fonction de nettoyage
     fetchUser();
+    // Liste de dépendances
   }, [ isToken, isUserId ]);
 
   // [3] affichage (render et rerender)

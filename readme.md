@@ -68,54 +68,82 @@ Le projet consiste à construire un réseau social interne pour les employés de
 ## Evaluation
 
 ___Évaluation___ : Mardi 15 novembre 2022
-#### -> `Projet  `
+#### -> `Projet Validé `
 
 
 ### Remarques sur l'évaluation
 
 #### 1. Authentifier un utilisateur et maintenir sa session
 
- __-> .__
+ __-> Validé.__
 
-___Commentaire :___
+___Commentaire :___ 
 
-.
+L’application web se connecte et se déconnecte de l’application backend et l’application web est persistante pendant le temps de connexion.
 
 
 #### 2. Développer l’interface d’un site web grâce à un framework front-end
 
- __-> .__
+ __-> Validé.__
 
 ___Commentaire :___
 
-.
+L’application peut être clonée et exécutée sans problème.
+
+L’application a été développée avec le Framework React et fonctionne sans bug.
+
+L’application web contient le logo et les couleurs recommandées par le client. Il n’y a aucune erreur d’accessibilité et aucun problème de contraste sur les pages testées.
+
+Les Posts sur la page d’accueil s’affichent bien et dans l’ordre antéchronologique.
 
 
 #### 3. Implémenter un stockage de données sécurisé en utilisant une base de données
 
-  __-> .__
+  __-> Validé.__
 
 ___Commentaires :___
 
-.
+L’application backend utilise une base de données MongoDB et permet de faire des enregistrements et des modifications de données sous l’action des utilisateurs.
+
+Les paramètres de connexion des utilisateurs sont cryptés avec bcrypt avant d’être stockés dans la base de données.
+
+La base de données stocke les informations de l’utilisateur et les posts effectués par les utilisateurs. La base de données prend en compte les likes effectués sur des Posts par les utilisateurs.
+
+Un administrateur peut effectuer la modification ou la suppression sur tous les Posts.
+
+Les méthodes de sécurités additionnelles ont été ajoutées avec helmet, email-validator, password-validator, mongoose-unique-validator et jesonwebtoken.
 
 
 ### Livrables
 
 ___Points forts___ : 
 
-.
+1. Projet bien structuré, code source bien indenté.
+2. Application bien fonctionnelle sans bug.
+3. Bonne gestion des doublons sur le champ email dans le schéma de données.
+4. Bonne implémentation des méthodes de sécurités recommandées.
+5. API bien fonctionnelle sans erreur dans la console du serveur.
+6. Pas de problème d’accessibilité ou de contraste. Bon respect des règles de WCAG.
+7. Bonne gestion de la mémoire en supprimant l’image du post en cas de modification ou de suppression du post.
+8. Bonne gestion de vérification d’accès à un Post avant toute modification ou suppression.
+9. Le fichier README a été bien documenté et explique comment déployer le projet.
 
 ___Axes d'amélioration___ : 
 
-.
+1. Un utilisateur peut enregistrer plusieurs likes sur le même post en contournant la sécurité implémentée sur le frontend.
+2. La modification ou la suppression du Post est conditionnée par la suppression de l’image.
+3. Le compteur de redirection traverse 0 et continu sur des chiffres négatifs (après inscription).
 
 
 ### Soutenance
 
 __Remarques :__ 
 
-.
+Très bonne présentation, bonne organisation et bonne prise de parole.
+
+La présentation prend en compte les attentes fonctionnelles et techniques du projet. L’application respecte toutes les exigences fonctionnelles, de sécurités et d’accessibilités recommandées.
+
+Félicitations !
 
 ____
 
